@@ -8,7 +8,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(RSocrata)
-
+library(ggplot2)
+library(dplyr)
 ```
 
 ```{r}
@@ -21,4 +22,32 @@ data <- read.socrata("https://data.cityofnewyork.us/resource/erm2-nwe9.json?$lim
 head(data)
 str(data)
 ```
+
+```{r}
+
+
+# checking for NA values in specific columns
+sum(is.na(data$created_date))
+sum(is.na(data$complaint_type))
+sum(is.na(data$latitude))  # Check for missing latitude/longitude
+
+```
+
+```{r}
+
+#convert borough column to a factor since it is a categorical variable
+data$borough <- as.factor(data$borough)
+
+#bar chart
+ggplot(data, aes(x = borough)) +
+  geom_bar(fill = "pink") + #By default, geom_bar() counts occurrences of each unique value in borough.
+  labs(title = "Complaint Count by Borough",
+       x = "Borough", y = "Count") +
+  theme_minimal()
+
+```
+
+
+
+
 
