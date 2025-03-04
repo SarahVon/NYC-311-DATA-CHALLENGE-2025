@@ -19,9 +19,32 @@ dataset_url <- "https://www.dropbox.com/scl/fi/os1x9i7sx1io5ura5fjti/311_DATA.cs
 # read CSV directly from Dropbox
 data <- read_csv(dataset_url)
 
-# show first few rows to make sure data was read in correctly
+# show first few rows to make sure data was read in correctly1
 head(data)
 ```
+
+```{r}
+# Convert date columns to Date format
+data$`Created Date` <- as.Date(data$`Created Date`, format = "%m/%d/%Y")
+data$`Closed Date` <- as.Date(data$`Closed Date`, format = "%m/%d/%Y")
+
+# Check for NA values in the date columns
+missing_dates <- sum(is.na(data$`Created Date`) | is.na(data$`Closed Date`))
+cat("Missing date values:", missing_dates, "\n")
+
+# Calculate the duration, ensuring no NA values are involved
+data$Duration <- as.numeric(difftime(data$`Closed Date`, data$`Created Date`, units = "days"))
+
+# Optionally, filter out rows with NA duration
+data <- data[!is.na(data$Duration), ]
+
+```
+
+
+```{r}
+summary(data$Duration)
+```
+
 
 
 
