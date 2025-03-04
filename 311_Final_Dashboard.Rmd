@@ -1,0 +1,30 @@
+---
+title: "311_Final_Data_Dashboard"
+author: "SAMM"
+date: "2025-03-04"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+# setup chunk to set global options and load in libraries
+knitr::opts_chunk$set(echo = FALSE)
+pacman::p_load(tidyverse, stringr, shiny, readr)
+```
+
+```{r loading_data}
+
+# dropbox direct download link to access large file (+2gb)
+dataset_url <- "https://www.dropbox.com/scl/fi/os1x9i7sx1io5ura5fjti/311_DATA.csv?rlkey=quw01tcso6lz3u3vtx7seoalc&st=634psn3v&dl=1"
+
+# read CSV directly from Dropbox
+data <- read_csv(dataset_url)
+
+# show first few rows to make sure data was read in correctly
+head(data)
+```
+
+
+
+
+
