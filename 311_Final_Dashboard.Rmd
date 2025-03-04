@@ -28,23 +28,38 @@ head(data)
 data$`Created Date` <- as.Date(data$`Created Date`, format = "%m/%d/%Y")
 data$`Closed Date` <- as.Date(data$`Closed Date`, format = "%m/%d/%Y")
 
-# Check for NA values in the date columns
 missing_dates <- sum(is.na(data$`Created Date`) | is.na(data$`Closed Date`))
 cat("Missing date values:", missing_dates, "\n")
 
-# Calculate the duration, ensuring no NA values are involved
+#calculating the duration, ensuring no NA values are involved
 data$Duration <- as.numeric(difftime(data$`Closed Date`, data$`Created Date`, units = "days"))
 
-# Optionally, filter out rows with NA duration
 data <- data[!is.na(data$Duration), ]
 
 ```
 
 
 ```{r}
-summary(data$Duration)
+data_1 <- data[data$Duration >= 0, ]  # removing negative duration (how is this even possoble)
+summary(data_1$Duration)
 ```
 
+```{r}
+#creating plot
+
+library(dplyr)
+library(ggplot2)
+
+data_1 %>%
+  group_by(Borough) %>%
+  summarise(Total_Duration = sum(Duration, na.rm = TRUE)) %>%
+  ggplot(aes(x = reorder(Borough, -Total_Duration), y = Total_Duration, fill = Borough)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Duration by Borough", x = "Borough", y = "Total Duration (Days)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
 
 
 
