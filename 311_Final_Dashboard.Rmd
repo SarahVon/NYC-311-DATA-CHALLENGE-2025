@@ -42,10 +42,11 @@ data <- data[!is.na(data$Duration), ]
 ```{r}
 data_1 <- data[data$Duration >= 0, ]  # removing negative duration (how is this even possible)
 summary(data_1$Duration)
+data_1 <- data[data$Borough != "Unspecified", ]
 ```
 ```{r, echo=FALSE}
 # Calculate the average duration per borough
-avg_duration_per_borough <- aggregate(Duration ~ Borough, data = data, FUN = mean)
+avg_duration_per_borough <- aggregate(Duration ~ Borough, data = data_1, FUN = mean)
 
 # View the results
 print(avg_duration_per_borough)
@@ -64,6 +65,9 @@ ggplot(avg_duration_per_borough, aes(x = Borough, y = Duration)) +
 
 ```
 
+```{r}
+
+```
 
 
 
