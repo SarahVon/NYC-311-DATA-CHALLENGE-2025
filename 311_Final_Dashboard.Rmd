@@ -19,7 +19,7 @@ dataset_url <- "https://www.dropbox.com/scl/fi/os1x9i7sx1io5ura5fjti/311_DATA.cs
 # read CSV directly from Dropbox
 data <- read_csv(dataset_url)
 
-# show first few rows to make sure data was read in correctly1
+# show first few rows to make sure data was read in correctly
 head(data)
 ```
 
@@ -40,7 +40,7 @@ data <- data[!is.na(data$Duration), ]
 
 
 ```{r}
-data_1 <- data[data$Duration >= 0, ]  # removing negative duration (how is this even possoble)
+data_1 <- data[data$Duration >= 0, ]  # removing negative duration (how is this even possible)
 summary(data_1$Duration)
 ```
 ```{r, echo=FALSE}
@@ -55,11 +55,8 @@ print(avg_duration_per_borough)
 
 
 ```{r, echo=FALSE}
-#creating plot
+#creating plot for average duration per borough
 
-library(ggplot2)
-
-# Bar plot for average duration per borough
 ggplot(avg_duration_per_borough, aes(x = Borough, y = Duration)) +
   geom_bar(stat = "identity") + 
   labs(title = "Average Duration by Borough", y = "Average Duration (Days)", x = "Borough") +
