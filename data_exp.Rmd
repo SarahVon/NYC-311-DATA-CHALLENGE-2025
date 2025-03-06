@@ -60,7 +60,7 @@ print(avg_duration_per_borough)
 
 ggplot(avg_duration_per_borough, aes(x = Borough, y = Duration)) +
   geom_bar(stat = "identity") + 
-  labs(title = "Average Duration by Borough", y = "Average Duration (Days)", x = "Borough") +
+  labs(title = "Average Response Time by Borough", y = "Average Duration (Days)", x = "Borough") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
