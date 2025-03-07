@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "My Shiny Visual"
 author: "May Benisa"
 date: "2025-03-06"
 output: html_document
@@ -9,13 +9,29 @@ runtime: shiny
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 pacman::p_load(tidyverse, shiny, plotly, DT)
+library(bslib)
+library(shinydashboard)
 ```
 
 ```{r}
+#UI side
 
-# Define UI
 ui <- fluidPage(
   
+  tags$head(
+    tags$style(HTML("
+      body {
+        background-color: #f8f9fa;
+      }
+      .title {
+        color: #007bff;
+        text-align: center;
+        font-size: 28px;
+      }
+    "))
+  ),
+  
+  #theme = bs_theme(bootswatch = "superhero"),
   titlePanel("NYC 311 Complaints Dashboard"),
   
   sidebarLayout(
@@ -38,66 +54,63 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      plotlyOutput("complaintPlot"),  # Output for the interactive plot
-      DTOutput("dataTable")           # Output for the filtered data table
+      plotlyOutput("complaintPlot"),
+      DTOutput("dataTable")          
     )
-  )  # <- Closing sidebarLayout()
-)  # <- Closing fluidPage()
+  )
+)  
 
-# Define Server
+```
+
+```{r}
+#server side
+
 server <- function(input, output) {
   
-  # Reactive dataset based on user selection
+  #reactive dataset based on user selection
   filtered_data <- reactive({
     data_1 %>%
       filter(Borough %in% input$borough,
              `Complaint Type` %in% input$complaint | "All Complaints" %in% input$complaint,
-             !is.na(Duration),  # Remove rows with NA in Duration
-             !is.na(`Created Date`),  # Remove rows with NA in Created Date
+             !is.na(Duration),  #remove rows with NA in Duration
+             !is.na(`Created Date`),  #remove rows with NA in Created Date
              `Created Date` >= input$dateRange[1] &
              `Created Date` <= input$dateRange[2]) %>%
       mutate(Duration = as.numeric(Duration))  # Ensure Duration is numeric
   })
   
-  # Aggregated data for plotting (Calculate the mean duration per borough)
+  #aggregated data for plotting
   aggregated_data <- reactive({
     filtered_data() %>%
       group_by(Borough) %>%
-      summarise(Average_Duration = mean(Duration, na.rm = TRUE))  # Calculate mean of Duration for each borough
+      summarise(Average_Duration = mean(Duration, na.rm = TRUE))  #calculating average of Duration for each borough
   })
   
-  # Render Interactive Plot
+  #rendering interactive plot
   output$complaintPlot <- renderPlotly({
-    data <- aggregated_data()  # Store aggregated data
+    data <- aggregated_data()  #storing aggregated data
+
     
-    # Prevent empty dataset errors
-    if (nrow(data) == 0 || all(is.na(data$Average_Duration))) {
-      return(NULL)  # No data to plot
-    }
-    
-    # Create the plot with aggregated data
+    #create plot
     ggplotly(
       ggplot(data, aes(x = Borough, y = Average_Duration, fill = Borough)) +
-        geom_bar(stat = "identity") +  # Use "identity" to plot pre-aggregated data
+        geom_bar(stat = "identity") +  #use "identity" to plot pre-aggregated data
         labs(title = "Average Response Time by Borough", 
              y = "Average Duration (Days)", x = "Borough") +
-        scale_y_continuous(labels = scales::comma) +  # Format y-axis labels with commas
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+        scale_y_continuous(labels = scales::comma) +
+        theme(axis.text.x = element_text(angle = 0, hjust = 1))
     )
   })
-  
-  # Render Data Table
-  output$dataTable <- renderDT({
-    datatable(filtered_data(), options = list(pageLength = 10))
-  })
-}
 
-# Run the Shiny App
-shinyApp(ui, server)
+}
 
 ```
 
 
+```{r}
+# run the app!
+shinyApp(ui, server)
+```
 
 
 
