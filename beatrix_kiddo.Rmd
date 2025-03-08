@@ -10,6 +10,11 @@ runtime: shiny
 knitr::opts_chunk$set(echo = TRUE)
 library(shinydashboard)
 library(shiny)
+library(plotly)
+library(dplyr)
+library(DT)
+library(lubridate)
+library(bslib)
 ```
 
 
@@ -22,15 +27,15 @@ ui_1 <- dashboardPage(
   
   dashboardSidebar(  # Sidebar with tabs
     sidebarMenu(
-      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+      menuItem("Visual 1", tabName = "Visual 1", icon = icon("chart-bar")),
+      menuItem("Visual 2", tabName = "Visual 2", icon = icon("chart-bar"))
     )
   ),
   
   dashboardBody(  # Main body content
     tabItems(
       # First tab content
-      tabItem(tabName = "dashboard",
+      tabItem(tabName = "Visual 1",
         fluidRow(
           box(plotOutput("plot1", height = 250)),
 
@@ -42,13 +47,18 @@ ui_1 <- dashboardPage(
       ),
 
       # Second tab content
-      tabItem(tabName = "widgets",
-        h2("Widgets tab content")
+      tabItem(tabName = "Visual 2",
+        h2("Average Response Time by Borough")
       )
     )
   )
 )
 
+
+```
+
+
+```{r}
 ## Define Server ##
 server_1 <- function(input, output) {
   set.seed(122)
@@ -62,6 +72,5 @@ server_1 <- function(input, output) {
 
 ## Run the App ##
 shinyApp(ui_1, server_1)
-
 ```
 
