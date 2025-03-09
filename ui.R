@@ -45,8 +45,11 @@ body = dashboardBody(
                 the data but also provides actionable insights for users. 
                 The goals include enhancing transparency in NYC service operations, 
                 enabling data-driven insights for policymakers and stakeholders, 
-                and allowing interactive exploration of the data through filtering options.")
-            )
+                and allowing interactive exploration of the data through filtering options."),
+              p("For More Information Checkout the Link Below: ",
+                a("https://github.com/UWB-Adv-Data-Vis/NYC-complaints.git", 
+                  href = "https://github.com/UWB-Adv-Data-Vis/NYC-complaints.git", target = "_blank")
+            ))
     ),
     
     # first visualization tab content
