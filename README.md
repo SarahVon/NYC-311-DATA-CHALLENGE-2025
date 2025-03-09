@@ -13,4 +13,6 @@ Challenge created by and made for the BIS 412 Advanced Data Visualization course
 
 The challenge is to develop an interactive dashboard that analyzes NYC 311 service requests from NYCOpenData. 
 This dashboard's objective is to use historical and real-time data visualizations to give relevant insights to viewers. 
-\
+
+
+# Explain how to access the webpage:
