@@ -9,6 +9,7 @@ options(tigris_use_cache = TRUE)
 library(spData)
 library(plotly)
 data("us_states", package = "spData")
+library(lubridate)
 
 # commenting the below out for now because my dropbox account was flagged again... 
 
@@ -21,11 +22,23 @@ data("us_states", package = "spData")
 # using local data for now
 data <- read_csv("311_DATA.csv")
 
+# splitting 'Created Date' into separate date and time columns
+data <- data %>%
+  mutate(`Created Date Only` = as.Date(`Created Date`, format = "%m/%d/%Y"),
+         `Created Time Only` = format(strptime(`Created Date`, format = "%m/%d/%Y %I:%M:%S %p"), "%H:%M:%S"))
+
+# splitting 'Closed Date' into separate date and time columns
+data <- data %>%
+  mutate(`Closed Date Only` = as.Date(`Closed Date`, format = "%m/%d/%Y"),
+         `Closed Time Only` = format(strptime(`Closed Date`, format = "%m/%d/%Y %I:%M:%S %p"), "%H:%M:%S"))
+
 # selecting only the necessary columns
 data <- data %>%
   select(
-    `Created Date`,
-    `Closed Date`,
+    `Created Date Only`,
+    `Closed Date Only`,
+    `Created Time Only`,
+    `Closed Time Only`,
     `Agency Name`,
     `Complaint Type`,
     `Descriptor`,
@@ -44,15 +57,20 @@ data <- data %>%
     `Location`
   )
 
+# renaming the new cols back to the original names so the code them doesn't break
+data <- data %>%
+  rename(
+    Created_Date = `Created Date Only`,
+    Closed_Date = `Closed Date Only`,
+    Created_Time = `Created Time Only`,
+    Closed_Time = `Closed Time Only`
+  )
+
 # converting "N/A" strings to proper NA values across all columns
 data <- data %>% mutate(across(where(is.character), ~ na_if(., "N/A")))
 
 # making sure there are no rows with missing Borough values
 data <- data %>% filter(!is.na(Borough) & Borough != "")
-
-# converting date columns to Date format
-data$`Created Date` <- as.Date(data$`Created Date`, format = "%m/%d/%y")
-data$`Closed Date` <- as.Date(data$`Closed Date`, format = "%m/%d/%y")
 
 # make sure col names don't have spaces
 colnames(data) <- gsub(" ", "_", colnames(data))
@@ -74,9 +92,11 @@ borough_choices <- unique(data$Borough)
 
 # creating duration variable
 data$Duration <- as.numeric(data$Closed_Date - data$Created_Date)
+
 # removing rows where Duration is negative or NA
 data <- data %>%
   filter(Duration >= 0)
+
 # handling any NA values
 data$Duration[is.na(data$Duration)] <- 0
 
