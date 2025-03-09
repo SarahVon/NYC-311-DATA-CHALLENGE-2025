@@ -8,7 +8,7 @@ sidebar = dashboardSidebar(
   sidebarMenu(
     menuItem("About", tabName = "About", icon = icon("info-circle")),
     menuItem("viz 1", tabName = "viz_1"),
-    menuItem("viz 2", tabName = "viz_2"),
+    menuItem("Average Response Time", tabName = "viz_2", icon = icon("clock")),
     menuItem("viz 3", tabName = "viz_3"),
     menuItem("viz 4", tabName = "viz_4")
   )
@@ -41,8 +41,11 @@ body = dashboardBody(
     ),
     
     # second visualization tab content
-    tabItem(tabName = "viz_2",
-            fluidPage()
+    tabItem(tabName = "vis_2",
+            fluidPage(
+              titlePanel("Average Response Time"),
+              plotlyOutput("avg_response_plot")
+            )
     ),
     
     # third visualization tab content
@@ -59,3 +62,4 @@ body = dashboardBody(
 
 # dashboard page
 dashboardPage(header, sidebar, body)
+
