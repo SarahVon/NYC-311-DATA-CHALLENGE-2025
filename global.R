@@ -7,6 +7,7 @@ library(sf)
 library(tigris)  
 options(tigris_use_cache = TRUE)
 library(spData)
+library(plotly)
 data("us_states", package = "spData")
 
 # commenting the below out for now because my dropbox account was flagged again... 
@@ -50,8 +51,8 @@ data <- data %>% mutate(across(where(is.character), ~ na_if(., "N/A")))
 data <- data %>% filter(!is.na(Borough) & Borough != "")
 
 # converting date columns to Date format
-data$`Created Date` <- as.Date(data$`Created Date`, format = "%m/%d/%Y")
-data$`Closed Date` <- as.Date(data$`Closed Date`, format = "%m/%d/%Y")
+data$`Created Date` <- as.Date(data$`Created Date`, format = "%m/%d/%y")
+data$`Closed Date` <- as.Date(data$`Closed Date`, format = "%m/%d/%y")
 
 # make sure col names don't have spaces
 colnames(data) <- gsub(" ", "_", colnames(data))
@@ -70,3 +71,12 @@ nyc_boroughs <- counties(state = "NY", cb = TRUE) %>%
 
 # storing borough choices for dropdown
 borough_choices <- unique(data$Borough)
+
+# creating duration variable
+data$Duration <- as.numeric(data$Closed_Date - data$Created_Date)
+# removing rows where Duration is negative or NA
+data <- data %>%
+  filter(Duration >= 0)
+# handling any NA values
+data$Duration[is.na(data$Duration)] <- 0
+

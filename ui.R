@@ -8,7 +8,7 @@ sidebar = dashboardSidebar(
   sidebarMenu(
     menuItem("About", tabName = "About", icon = icon("info-circle")),
     menuItem("viz 1", tabName = "viz_1"),
-    menuItem("viz 2", tabName = "viz_2"),
+    menuItem("Average Response Time", tabName = "viz_2", icon = icon("clock")),
     menuItem("viz 3", tabName = "viz_3"),
     menuItem("viz 4", tabName = "viz_4")
   )
@@ -42,7 +42,35 @@ body = dashboardBody(
     
     # second visualization tab content
     tabItem(tabName = "viz_2",
-            fluidPage()
+            fluidPage(
+              titlePanel("Average Response Time"),
+              sidebarLayout(
+                sidebarPanel(
+                  # multiple selection for boroughs
+                  selectInput("borough_filter", "Select Borough(s):",
+                              choices = c("All Boroughs", borough_choices),
+                              selected = "All Boroughs",
+                              multiple = TRUE),
+                  
+                  # multiple selection for complaint types
+                  selectInput("complaint_filter", "Select Complaint Type(s):",
+                              choices = c("All Complaints", sort(unique(data$Complaint_Type))),
+                              selected = "All Complaints",
+                              multiple = TRUE),
+                  
+                  # slider for selecting date range (only 2024)
+                  sliderInput("date_range", "Select Date Range (2024):", 
+                              min = as.Date("2024-09-17"),
+                              max = as.Date("2024-12-31"),
+                              value = c(as.Date("2024-09-17"), as.Date("2024-12-31")),
+                              timeFormat = "%Y-%m-%d")
+                ),
+                mainPanel(
+                  plotlyOutput("avg_response_plot")
+                  # DT::DTOutput("data_table") not sure if I want to include a DT
+                )
+              )
+            )
     ),
     
     # third visualization tab content
@@ -59,3 +87,4 @@ body = dashboardBody(
 
 # dashboard page
 dashboardPage(header, sidebar, body)
+
