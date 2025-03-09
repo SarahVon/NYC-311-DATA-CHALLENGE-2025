@@ -19,3 +19,54 @@ data("us_states", package = "spData")
 
 # using local data for now
 data <- read_csv("311_DATA.csv")
+
+# selecting only the necessary columns
+data <- data %>%
+  select(
+    `Created Date`,
+    `Closed Date`,
+    `Agency Name`,
+    `Complaint Type`,
+    `Descriptor`,
+    `Location Type`,
+    `Incident Zip`,
+    `Incident Address`,
+    `Status`,
+    `Resolution Description`,
+    `Borough`,
+    `Street Name`,
+    `City`,
+    `Park Facility Name`,
+    `Open Data Channel Type`,
+    `Latitude`,
+    `Longitude`,
+    `Location`
+  )
+
+# converting "N/A" strings to proper NA values across all columns
+data <- data %>% mutate(across(where(is.character), ~ na_if(., "N/A")))
+
+# making sure there are no rows with missing Borough values
+data <- data %>% filter(!is.na(Borough) & Borough != "")
+
+# converting date columns to Date format
+data$`Created Date` <- as.Date(data$`Created Date`, format = "%m/%d/%Y")
+data$`Closed Date` <- as.Date(data$`Closed Date`, format = "%m/%d/%Y")
+
+# make sure col names don't have spaces
+colnames(data) <- gsub(" ", "_", colnames(data))
+
+# getting NYC borough data
+nyc_map_data <- us_states %>% filter(NAME == "New York")
+
+nyc_boroughs <- counties(state = "NY", cb = TRUE) %>%
+  filter(NAME %in% c("Bronx", "Kings", "New York", "Queens", "Richmond")) %>%
+  mutate(NAME = case_when(
+    NAME == "Kings" ~ "Brooklyn",
+    NAME == "New York" ~ "Manhattan",
+    NAME == "Richmond" ~ "Staten Island",
+    TRUE ~ NAME
+  ))
+
+# storing borough choices for dropdown
+borough_choices <- unique(data$Borough)
