@@ -60,7 +60,7 @@ body = dashboardBody(
                   
                   # slider for selecting date range (only 2024)
                   sliderInput("date_range", "Select Date Range (2024):", 
-                              min = as.Date("2024-09-17"),
+                              min = as.Date("2024-01-01"),
                               max = as.Date("2024-12-31"),
                               value = c(as.Date("2024-09-17"), as.Date("2024-12-31")),
                               timeFormat = "%Y-%m-%d")
