@@ -1,5 +1,8 @@
 library(shinydashboard)
 
+# creating a header for the dashboard
+header = dashboardHeader(title = "311 Data Dashboard")
+
 # creating a sidebar for the dashboard for page navigation
 sidebar = dashboardSidebar(
   sidebarMenu(
