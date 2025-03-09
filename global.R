@@ -70,3 +70,11 @@ nyc_boroughs <- counties(state = "NY", cb = TRUE) %>%
 
 # storing borough choices for dropdown
 borough_choices <- unique(data$Borough)
+
+# creating duration variable
+data$Duration <- as.numeric(data$Closed_Date - data$Created_Date)
+# removing rows where Duration is negative or NA
+data <- data %>%
+  filter(Duration >= 0)
+# handling any NA values
+data$Duration[is.na(data$Duration)] <- 0
