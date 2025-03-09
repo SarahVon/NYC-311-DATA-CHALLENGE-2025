@@ -19,7 +19,34 @@ body = dashboardBody(
   tabItems(
     # about tab content
     tabItem(tabName = "About",
-            fluidPage()
+            fluidPage(
+              h1("About"),
+              
+              h2("Purpose and Objective"),
+              p("The primary purpose of this dashboard is to explore and 
+                analyze NYC 311 Service Request data and to offer insights 
+                into complaint patterns, geographic distribution, and response 
+                times across different boroughs. The dashboard is designed 
+                to guide users in understanding public service efficiency 
+                and identifying potential areas for improvement."),
+              
+              h2("Statistical Analysis Documentation"),
+              p("This dashboard includes a statistical analysis of average 
+              response times by borough. 
+                The analysis is performed by calculating the mean number of days
+                between the creation and closure of service requests. 
+                A lower average response time indicates more efficient handling 
+                of service requests, whereas higher values may suggest delays."),
+              p("Limitations: Data quality issues..."),
+              
+              h2("Challenge and Dashboard Goals"),
+              p("The challenge addressed by this dashboard is to transform a large,
+                multifaceted dataset into an interactive tool that not only visualizes 
+                the data but also provides actionable insights for users. 
+                The goals include enhancing transparency in NYC service operations, 
+                enabling data-driven insights for policymakers and stakeholders, 
+                and allowing interactive exploration of the data through filtering options.")
+            )
     ),
     
     # first visualization tab content
