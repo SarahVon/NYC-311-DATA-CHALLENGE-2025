@@ -52,8 +52,8 @@ server <- function(input, output) {
   })
   
   # ────────────────────────────────────────────────────────────
-  # VISUALIZATION 2: [Title of Viz]
-  # Contributor: [Group Member]
+  # VISUALIZATION 2: Average Response Time by Borough
+  # Contributor: May Benisa
   # ────────────────────────────────────────────────────────────
   
   # output$viz2_plot <- renderPlot({...}) 
