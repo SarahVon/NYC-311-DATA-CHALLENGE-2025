@@ -53,3 +53,6 @@ body = dashboardBody(
     )
   )
 )
+
+# dashboard page
+dashboardPage(header, sidebar, body)
