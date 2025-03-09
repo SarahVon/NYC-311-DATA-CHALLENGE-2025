@@ -14,12 +14,11 @@ library(plotly)
 library(dplyr)
 library(DT)
 library(lubridate)
-library(bslib)
+
 ```
 
 
 ```{r}
-## app.R ##
 
 ## Define UI ##
 ui_1 <- dashboardPage(
@@ -32,45 +31,109 @@ ui_1 <- dashboardPage(
     )
   ),
   
-  dashboardBody(  # Main body content
+    dashboardBody(  # Main body content
     tabItems(
       # First tab content
       tabItem(tabName = "Visual 1",
         fluidRow(
-          box(plotOutput("plot1", height = 250)),
-
+          box(
+            title = "Average Response Time by Borough",
+            plotOutput("complaintPlot", height = 500),
+            width = 12  # Ensure the box takes full width
+          )
+        ),
+        
+        fluidRow(
           box(
             title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
+            selectInput("borough", "Select Borough:",
+                        choices = unique(data_1$Borough),
+                        selected = "Manhattan",
+                        multiple = TRUE),
+            selectInput("complaint", "Select Complaint Type:", 
+                        choices = c("All Complaints", unique(data_1$`Complaint Type`)), 
+                        selected = "All Complaints",
+                        multiple = TRUE),
+            sliderInput("dateRange", "Select Date Range:", 
+                        min = min(data_1$`Created Date`, na.rm = TRUE), 
+                        max = max(data_1$`Created Date`, na.rm = TRUE), 
+                        value = c(min(data_1$`Created Date`, na.rm = TRUE), 
+                                  max(data_1$`Created Date`, na.rm = TRUE))),
+            width = 4  # Set width for the control panel
           )
         )
       ),
-
+      
       # Second tab content
       tabItem(tabName = "Visual 2",
-        h2("Average Response Time by Borough")
+        h2("Average Response Time by Borough"),
+        DTOutput("dataTavle")
       )
     )
   )
 )
-
-
 ```
 
 
 ```{r}
 ## Define Server ##
 server_1 <- function(input, output) {
+  data_1 <- read.csv("data_1.csv")
+  print(colnames(data_1))
   set.seed(122)
   histdata <- rnorm(500)
   
-  output$plot1 <- renderPlot({
-    data <- histdata[seq_len(input$slider)]
-    hist(data)
+    # Reactive dataset based on user selections from controls
+  filtered_data <- reactive({
+    data_1 %>%
+      filter(Borough %in% input$borough,
+             `Complaint Type` %in% input$complaint | "All Complaints" %in% input$complaint,
+             !is.na(Duration),  # remove rows with NA in Duration
+             !is.na(`Created Date`),  # remove rows with NA in Created Date
+             `Created Date` >= input$dateRange[1] & 
+             `Created Date` <= input$dateRange[2]) %>%
+      mutate(Duration = as.numeric(Duration))  # Ensure Duration is numeric
   })
+  
+  # Aggregated data for plotting
+  aggregated_data <- reactive({
+    filtered_data() %>%
+      group_by(Borough) %>%
+      summarise(Average_Duration = mean(Duration, na.rm = TRUE))  # Calculate average of Duration for each borough
+  })
+  
+  # Render the plot with Plotly
+  output$complaintPlot <- renderPlotly({
+    data <- aggregated_data()  # Store the aggregated data
+    
+    # Create the Plotly bar plot
+    ggplotly(
+      ggplot(data, aes(x = Borough, y = Average_Duration, fill = Borough)) +
+        geom_bar(stat = "identity") +  # Use "identity" to plot pre-aggregated data
+        labs(title = "Average Response Time by Borough", 
+             y = "Average Duration (Days)", 
+             x = "Borough") +
+        scale_y_continuous(labels = scales::comma) +
+        theme(axis.text.x = element_text(angle = 0, hjust = 1))
+    )
+  })
+
+  # Render the data table
+  output$dataTable <- renderDT({
+    aggregated_data()  # Display the filtered data based on user input
+  })
+  
 }
 
-## Run the App ##
+```
+
+
+```{r}
 shinyApp(ui_1, server_1)
 ```
+
+
+
+
+
 
