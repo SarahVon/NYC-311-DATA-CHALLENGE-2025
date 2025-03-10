@@ -125,12 +125,16 @@ body = dashboardBody(
                 column(6, 
                        box(title = "Summary Statistics", width = NULL, solidHeader = TRUE, status = "info",
                            fluidRow(
-                             column(6, valueBoxOutput("total_requests")),
-                             column(6, valueBoxOutput("total_types"))
+                             column(6, valueBoxOutput("total_requests"), 
+                                    h5("Requests", align = "center")),
+                             column(6, valueBoxOutput("total_types"), 
+                                    h5("Request Types", align = "center"))
                            ),
                            fluidRow(
-                             column(6, valueBoxOutput("total_sources")),
-                             column(6, valueBoxOutput("total_agencies"))
+                             column(6, valueBoxOutput("total_sources"), 
+                                    h5("Sources", align = "center")),
+                             column(6, valueBoxOutput("total_agencies"), 
+                                    h5("Request Agency", align = "center"))
                            )
                        )
                 )
