@@ -9,7 +9,7 @@ sidebar = dashboardSidebar(
     menuItem("About", tabName = "About", icon = icon("info-circle")),
     menuItem("viz 1", tabName = "viz_1"),
     menuItem("Average Response Time", tabName = "viz_2", icon = icon("clock")),
-    menuItem("viz 3", tabName = "viz_3"),
+    menuItem("Summary Dashboard", tabName = "viz_3"),
     menuItem("viz 4", tabName = "viz_4")
   )
 )
@@ -105,7 +105,57 @@ body = dashboardBody(
     
     # third visualization tab content
     tabItem(tabName = "viz_3",
-            fluidPage()
+            fluidPage(
+              titlePanel("Summary Dashboard"),
+              fluidRow(
+                
+                # date selection box
+                column(6, 
+                       box(title = "Select Date Range", width = NULL, solidHeader = TRUE, status = "primary",
+                           selectInput("summary_date_range", 
+                                       "Choose a Date Range:", 
+                                       choices = c("Past Month" = "1m", 
+                                                   "Past 3 Months" = "3m",
+                                                   "Past 6 Months" = "6m",
+                                                   "Past Year" = "12m"),
+                                       selected = "12m"))
+                ),
+                
+                # summary statistics box with four quadrants
+                column(6, 
+                       box(title = "Summary Statistics", width = NULL, solidHeader = TRUE, status = "info",
+                           fluidRow(
+                             column(6, valueBoxOutput("total_requests")),
+                             column(6, valueBoxOutput("total_types"))
+                           ),
+                           fluidRow(
+                             column(6, valueBoxOutput("total_sources")),
+                             column(6, valueBoxOutput("total_agencies"))
+                           )
+                       )
+                )
+              ),
+              
+              # complaint heatmap
+              fluidRow(
+                column(12, 
+                       box(title = "Complaint Counts by Borough", width = 12, solidHeader = TRUE, status = "primary",
+                           plotOutput("complaint_heatmap"))
+                )
+              ),
+              
+              # request source & division distribution
+              fluidRow(
+                column(6, 
+                       box(title = "Total Requests by Source", width = 12, solidHeader = TRUE, status = "info",
+                           plotOutput("request_source_chart"))
+                ),
+                column(6, 
+                       box(title = "Division Handling Requests", width = 12, solidHeader = TRUE, status = "info",
+                           plotOutput("request_division_chart"))
+                )
+              )
+            )
     ),
     
     # fourth visualization tab content
