@@ -1,3 +1,5 @@
+# uncomment if you need to install rsconnect (used to deploy to shinyapps.io)
+# install.packages("rsconnect")
 library(tidyverse)
 library(shiny)
 library(leaflet)
@@ -11,7 +13,7 @@ library(lubridate)
 library(shinydashboard)
 library(scales)
 library(RColorBrewer) 
-
+library(rsconnect)
 
 # commenting the below out for now because my dropbox account was flagged again... 
 
