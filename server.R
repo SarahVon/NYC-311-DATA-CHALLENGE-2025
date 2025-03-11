@@ -94,7 +94,7 @@ server <- function(input, output) {
                 .groups = "drop")
   })
   
-  # rendering interactive Plotly plot
+  # rendering interactive bar chart for Average Response Time by Borough
   output$avg_response_plot <- renderPlotly({
     agg_data <- aggregated_data()
     
@@ -104,13 +104,14 @@ server <- function(input, output) {
                plotly::layout(title = "No data available for the selected filters"))
     }
     
-    # building plot + aesthetics
+    
+    # building plot + aesthetics for main plot
     p <- ggplot(agg_data, aes(x = Borough, y = Average_Duration, fill = Borough)) +
       geom_bar(stat = "identity") +
       # geom_text(aes(label = round(Average_Duration, 1)), vjust = -0.5, size = 4, color = "black") +
       labs(title = "Average Response Time by Borough",
            subtitle = "Filtered by Date & Complaint Type",
-           y = "Average Response Time (Days)", x = "Borough") +
+           y = "Avg Response Time (Days)", x = "Borough") +
       scale_fill_brewer(palette = "Set2") +
       scale_y_continuous(labels = scales::comma) +
       theme_minimal() +
@@ -119,9 +120,26 @@ server <- function(input, output) {
     ggplotly(p) %>% layout(margin = list(t = 80))
   })
   
-  # rendering
-  output$data_table <- DT::renderDT({
-    aggregated_data()
+  # rendering time series chart for Response Time Trend
+  output$response_time_trend <- renderPlotly({
+    trend_data <- filtered_data() %>%
+      group_by(Created_Date) %>%
+      summarise(Average_Duration = mean(Duration, na.rm = TRUE), .groups = "drop")
+    
+    if(nrow(trend_data) == 0) {
+      return(plotly::plot_ly() %>% 
+               plotly::layout(title = "No data available for the selected filters"))
+    }
+    
+    p <- ggplot(trend_data, aes(x = Created_Date, y = Average_Duration)) +
+      geom_line(color = "blue", size = 0.5) + # fixing line thickness
+      geom_point(size = 1.2, color = "red") + # fixing point size
+      labs(title = "Response Time Trends: How Quickly Are Complaints Resolved?",
+           subtitle = "Tracking changes in average response time",
+           y = "Avg Response Time (Days)", x = "Date") +
+      theme_minimal()
+    
+    ggplotly(p)
   })
   
   # ────────────────────────────────────────────────────────────
