@@ -80,32 +80,40 @@ body = dashboardBody(
                 column(12, plotlyOutput("avg_response_plot"))
               ),
               
-              # bottom row: left (slider) & right: time series chart
-              fluidRow(
-                column(6,  
-                       sliderInput("date_range", "Select Date Range (2024):", 
-                                   min = as.Date("2024-01-01"),
-                                   max = as.Date("2024-12-31"),
-                                   value = c(as.Date("2024-09-17"), as.Date("2024-12-31")),
-                                   timeFormat = "%Y-%m-%d")
-                ),
-                column(6, plotlyOutput("response_time_trend"))
-              ),
               
-              # filters moved below the slider
+              # Add spacing before time series chart
+              br(), br(),  # Two line breaks
+              tags$hr(),   # Horizontal line for separation
+              
+
+              # Left (Date Slider + Filters) & Right (Time Series Chart)
               fluidRow(
                 column(6,  
-                       selectInput("borough_filter", "Select Borough(s):",
-                                   choices = c("All Boroughs", borough_choices),
-                                   selected = "All Boroughs",
-                                   multiple = TRUE)
+                       div(
+                         # Date Range Slider (Top)
+                         sliderInput("date_range", "Select Date Range (2024):", 
+                                     min = as.Date("2024-01-01"),
+                                     max = as.Date("2024-12-31"),
+                                     value = c(as.Date("2024-09-17"), as.Date("2024-12-31")),
+                                     timeFormat = "%Y-%m-%d"),
+                         br(),  # Small spacing
+                         
+                         # Borough Filter (Directly Below)
+                         selectInput("borough_filter", "Select Borough(s):",
+                                     choices = c("All Boroughs", borough_choices),
+                                     selected = "All Boroughs",
+                                     multiple = TRUE),
+                         br(),  # Small spacing
+                         
+                         # Complaint Type Filter (Stacked Below)
+                         selectInput("complaint_filter", "Select Complaint Type(s):",
+                                     choices = c("All Complaints", sort(unique(data$Complaint_Type))),
+                                     selected = "All Complaints",
+                                     multiple = TRUE)
+                       )
                 ),
-                column(6,  
-                       selectInput("complaint_filter", "Select Complaint Type(s):",
-                                   choices = c("All Complaints", sort(unique(data$Complaint_Type))),
-                                   selected = "All Complaints",
-                                   multiple = TRUE)
-                )
+                
+                column(6, plotlyOutput("response_time_trend"))  # Right Side: Time Series Chart
               )
             )
     ),
