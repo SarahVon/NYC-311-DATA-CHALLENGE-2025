@@ -9,7 +9,7 @@ sidebar = dashboardSidebar(
     menuItem("About", tabName = "About", icon = icon("info-circle")),
     menuItem("viz 1", tabName = "viz_1"),
     menuItem("Average Response Time", tabName = "viz_2", icon = icon("clock")),
-    menuItem("Summary Dashboard", tabName = "viz_3"),
+    menuItem("Summary Overview", tabName = "viz_3"),
     menuItem("viz 4", tabName = "viz_4")
   )
 )
@@ -106,7 +106,7 @@ body = dashboardBody(
     # third visualization tab content
     tabItem(tabName = "viz_3",
             fluidPage(
-              titlePanel("Summary Dashboard"),
+              titlePanel("Summary Overview"),
               
               # date selection & summary stats
               fluidRow(

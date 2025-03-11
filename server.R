@@ -255,6 +255,47 @@ server <- function(input, output) {
     )
   })
   
+  ### HORIZONTAL BAR CHART FOR SOURCEES** 
+  # reactive data that groups by open_data_channel_type
+  requests_by_source_data <- reactive({
+    filtered_summary_data() %>%
+      mutate(
+        SourceCategory = case_when(
+          # combining unknown and other
+          Open_Data_Channel_Type %in% c("UNKNOWN", "OTHER") ~ "OTHER",
+          Open_Data_Channel_Type == "ONLINE" ~ "WEBSITE",
+          Open_Data_Channel_Type == "PHONE"  ~ "PHONE CALL",
+          Open_Data_Channel_Type == "MOBILE" ~ "MOBILE APP",
+          TRUE ~ as.character(Open_Data_Channel_Type)
+        )
+      ) %>%
+      group_by(SourceCategory) %>%
+      summarise(Count = n(), .groups = "drop")
+  })
+  
+  # rendering the horizontal bar chart
+  output$requests_by_source <- renderPlot({
+    df <- requests_by_source_data() %>%
+      # removing any NA categories if present
+      filter(!is.na(SourceCategory)) %>%
+      arrange(desc(Count))
+    
+    ggplot(df, aes(x = Count, y = reorder(SourceCategory, Count))) +
+      geom_col(fill = "thistle") +
+      labs(x = "Number of Requests", y = NULL) +
+      scale_x_continuous(labels = scales::comma) +
+      theme_minimal(base_size = 13) +  
+      theme(
+        axis.text = element_text(face = "bold"),  
+        axis.title.x = element_text(
+          face = "bold", 
+          # extra space for x-axis title
+          margin = margin(t = 15)  
+        ),
+        axis.title.y = element_blank()
+      )
+  })
+  
   # ────────────────────────────────────────────────────────────
   # VISUALIZATION 4: [Title of Viz]
   # Contributor: [Group Member]
