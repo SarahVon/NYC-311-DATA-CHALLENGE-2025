@@ -81,31 +81,31 @@ body = dashboardBody(
               ),
               
               
-              # Add spacing before time series chart
+              # spacing before time series chart
               br(), br(),  # Two line breaks
               tags$hr(),   # Horizontal line for separation
               
 
-              # Left (Date Slider + Filters) & Right (Time Series Chart)
+              # left (Date Slider + Filters) & right (Time Series Chart)
               fluidRow(
                 column(6,  
                        div(
-                         # Date Range Slider (Top)
+                         # date Range Slider (Top)
                          sliderInput("date_range", "Select Date Range (2024):", 
                                      min = as.Date("2024-01-01"),
                                      max = as.Date("2024-12-31"),
                                      value = c(as.Date("2024-09-17"), as.Date("2024-12-31")),
                                      timeFormat = "%Y-%m-%d"),
-                         br(),  # Small spacing
+                         br(),
                          
-                         # Borough Filter (Directly Below)
+                         # vorough Filter (Directly Below)
                          selectInput("borough_filter", "Select Borough(s):",
                                      choices = c("All Boroughs", borough_choices),
                                      selected = "All Boroughs",
                                      multiple = TRUE),
                          br(),  # Small spacing
                          
-                         # Complaint Type Filter (Stacked Below)
+                         # complaint Type Filter (Stacked Below)
                          selectInput("complaint_filter", "Select Complaint Type(s):",
                                      choices = c("All Complaints", sort(unique(data$Complaint_Type))),
                                      selected = "All Complaints",
@@ -113,7 +113,7 @@ body = dashboardBody(
                        )
                 ),
                 
-                column(6, plotlyOutput("response_time_trend"))  # Right Side: Time Series Chart
+                column(6, plotlyOutput("response_time_trend"))  # right Side: Time Series Chart
               )
             )
     ),
