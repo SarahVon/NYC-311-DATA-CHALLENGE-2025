@@ -7,9 +7,9 @@ header = dashboardHeader(title = "311 Data Dashboard")
 sidebar = dashboardSidebar(
   sidebarMenu(
     menuItem("About", tabName = "About", icon = icon("info-circle")),
-    menuItem("viz 1", tabName = "viz_1"),
+    menuItem("General Overview", tabName = "viz_3", icon = icon("chart-bar")),
+    menuItem("Top 10 Complaints", tabName = "viz_1", icon = icon("map")),
     menuItem("Average Response Time", tabName = "viz_2", icon = icon("clock")),
-    menuItem("Summary Overview", tabName = "viz_3"),
     menuItem("viz 4", tabName = "viz_4")
   )
 )
@@ -106,25 +106,45 @@ body = dashboardBody(
     # third visualization tab content
     tabItem(tabName = "viz_3",
             fluidPage(
-              titlePanel("Summary Overview"),
+              titlePanel("NYC 311 Data at a Glance"),
               
               # date selection & summary stats
               fluidRow(
                 box(
-                  title = "Select Date Range", status = "primary", solidHeader = TRUE,
-                  selectInput("date_range_summary", "Choose a Date Range:",
+                  title = "Select Date Range", status = "primary", solidHeader = TRUE, height = "204px", width = 6,
+                  selectInput("date_range_summary", "Choose a Date Range:", 
                               choices = c("Past Month", "Past 3 Months", "Past 6 Months", "Past Year"),
                               selected = "Past Year")
                 ),
                 box(
                   title = "Summary Statistics", status = "info", solidHeader = TRUE, width = 6,
                   fluidRow(
-                    column(6, div(h3(textOutput("total_requests")), "Requests")),
-                    column(6, div(h3(textOutput("total_request_types")), "Request Types"))
+                    column(6,
+                           div(style = "text-align:center; border: 1px solid #ddd; margin: 5px; padding: 5px; border-radius: 5px;",
+                               h2(textOutput("total_requests"), style = "margin:0;"),
+                               h5("Requests", style = "margin:0;")
+                           )
+                    ),
+                    column(6,
+                           div(style = "text-align:center; border: 1px solid #ddd; margin: 5px; padding: 5px; border-radius: 5px;",
+                               h2(textOutput("total_request_types"), style = "margin:0;"),
+                               h5("Request Types", style = "margin:0;")
+                           )
+                    )
                   ),
                   fluidRow(
-                    column(6, div(h3(textOutput("total_sources")), "Sources")),
-                    column(6, div(h3(textOutput("total_request_agencies")), "Request Agency"))
+                    column(6,
+                           div(style = "text-align:center; border: 1px solid #ddd; margin: 5px; padding: 5px; border-radius: 5px;",
+                               h2(textOutput("total_sources"), style = "margin:0;"),
+                               h5("Sources", style = "margin:0;")
+                           )
+                    ),
+                    column(6,
+                           div(style = "text-align:center; border: 1px solid #ddd; margin: 5px; padding: 5px; border-radius: 5px;",
+                               h2(textOutput("total_request_agencies"), style = "margin:0;"),
+                               h5("Request Agency", style = "margin:0;")
+                           )
+                    )
                   )
                 )
               ),
@@ -138,12 +158,12 @@ body = dashboardBody(
               # requests by source & division handling requests
               fluidRow(
                 box(title = "Total Requests by Source", status = "info",
-                  solidHeader = TRUE, width = 6,
-                  plotOutput("requests_by_source")
+                  solidHeader = TRUE, width = 6, height = "450px",
+                  plotOutput("requests_by_source", height = "390px"),
                 ),
                 box( title = "Division Handling Requests (Top Five)", status = "info",
-                  solidHeader = TRUE,
-                  width = 6, plotlyOutput("division_handling", height = "300px"), 
+                  solidHeader = TRUE, width = 6, height = "450px",
+                  plotlyOutput("division_handling", height = "250px"), 
                   uiOutput("division_legend")
                 )
               )
