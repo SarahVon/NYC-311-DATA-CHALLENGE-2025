@@ -1,15 +1,17 @@
 library(tidyverse)
-library(stringr)
 library(shiny)
-library(readr)
 library(leaflet)
 library(sf)
-library(tigris)  
+library(tigris)
 options(tigris_use_cache = TRUE)
 library(spData)
 library(plotly)
 data("us_states", package = "spData")
 library(lubridate)
+library(shinydashboard)
+library(scales)
+library(RColorBrewer) 
+
 
 # commenting the below out for now because my dropbox account was flagged again... 
 

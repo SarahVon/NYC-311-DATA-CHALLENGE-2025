@@ -1,6 +1,4 @@
-library(shiny)
-library(shinydashboard)
-library(scales)
+## SERVER.R FILE ##
 
 server <- function(input, output) {  
   
@@ -222,8 +220,8 @@ server <- function(input, output) {
     # add tile annotations with commas
     annotations <- lapply(seq_len(nrow(df)), function(i) {
       this_count <- df$Count[i]
-      # switch to white text if above 75% of max
-      text_color <- if (this_count > 0.75 * max_count) "white" else "black"
+      # switch to white text if above 55% of max
+      text_color <- if (this_count > 0.55 * max_count) "white" else "black"
       
       list(
         x = df$DisplayCat[i],
@@ -294,6 +292,101 @@ server <- function(input, output) {
         ),
         axis.title.y = element_blank()
       )
+  })
+  
+  ### DIVISION DONUT CHART ###
+  # reactive data for top 5 divisions
+  division_data <- reactive({
+    df <- filtered_summary_data()
+    
+    # group by agency name, then sort descending
+    summary_df <- df %>%
+      group_by(Agency_Name) %>%
+      summarise(Count = n(), .groups = "drop") %>%
+      arrange(desc(Count))
+    
+    # keep top 5 only (ignore the rest)
+    top5 <- summary_df[1:5, ]
+    
+    # computing the percentage of total for each
+    total_requests <- sum(top5$Count)
+    top5 <- top5 %>%
+      mutate(Percent = (Count / total_requests) * 100)
+    
+    top5
+  })
+  
+  output$division_handling <- renderPlotly({
+    df <- division_data()
+    
+    # if no data, return nothing
+    if (nrow(df) == 0) return(NULL)
+    
+    # largest slice gets darkest color
+    # reversed Blues palette
+    slice_count <- nrow(df)
+    all_blues <- RColorBrewer::brewer.pal(5, "Blues")
+    color_palette <- rev(all_blues)[1:slice_count]
+    
+    # building our donut with plot_ly
+    plot_ly(
+      data = df,
+      labels = ~Agency_Name,
+      values = ~Count,
+      type = "pie",
+      hole = 0.5,                    
+      marker = list(colors = color_palette),
+      textinfo = "none",             
+      hoverinfo = "text",           
+      text = ~paste0(
+        Agency_Name, 
+        " - ", sprintf("%.1f%%", Percent)
+      ),
+      hovertemplate = "%{text}<extra></extra>"
+    ) %>%
+      layout(
+        # using custom legend below
+        showlegend = FALSE  
+      )
+  })
+  
+  # creating a custom HTML legend showing color boxes & percentages
+  output$division_legend <- renderUI({
+    df <- division_data()
+    
+    # if there's no data, show nothing
+    if (nrow(df) == 0) return(NULL)
+    
+    # reorder largest to smallest
+    df <- df %>% arrange(desc(Count))
+    
+    # build the reversed palette for up to 5 slices
+    slice_count <- nrow(df)
+    all_blues <- RColorBrewer::brewer.pal(5, "Blues")
+    color_palette <- rev(all_blues)[1:slice_count]
+    
+    # create a small data frame with color + text
+    legend_rows <- purrr::map2_df(df$Agency_Name, seq_len(nrow(df)), function(name, i) {
+      tibble::tibble(
+        name = name,
+        color = color_palette[i],
+        percent = sprintf("%.1f%%", df$Percent[i])
+      )
+    })
+    
+    # building HTML for each row in the legend
+    legend_html <- purrr::map_chr(seq_len(nrow(legend_rows)), function(i) {
+      row <- legend_rows[i,]
+      sprintf(
+        '<div style="display:flex; align-items:center; margin-bottom:4px;">
+         <div style="width:15px; height:15px; background:%s; margin-right:8px;"></div>
+         <span style="font-weight:bold;">%s</span>&nbsp; - %s
+       </div>',
+        row$color, row$name, row$percent
+      )
+    }) %>% paste0(collapse = "")
+    
+    HTML(legend_html)
   })
   
   # ────────────────────────────────────────────────────────────

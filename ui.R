@@ -1,4 +1,4 @@
-library(shinydashboard)
+## UI.R FILE ##
 
 # creating a header for the dashboard
 header = dashboardHeader(title = "311 Data Dashboard")
@@ -137,10 +137,15 @@ body = dashboardBody(
               
               # requests by source & division handling requests
               fluidRow(
-                box(title = "Total Requests by Source", status = "info", solidHeader = TRUE, width = 6,
-                    plotOutput("requests_by_source")),
-                box(title = "Division Handling Requests", status = "info", solidHeader = TRUE, width = 6,
-                    plotOutput("division_handling"))
+                box(title = "Total Requests by Source", status = "info",
+                  solidHeader = TRUE, width = 6,
+                  plotOutput("requests_by_source")
+                ),
+                box( title = "Division Handling Requests (Top Five)", status = "info",
+                  solidHeader = TRUE,
+                  width = 6, plotlyOutput("division_handling", height = "300px"), 
+                  uiOutput("division_legend")
+                )
               )
             )
     ),
