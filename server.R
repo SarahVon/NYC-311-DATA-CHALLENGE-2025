@@ -104,14 +104,19 @@ server <- function(input, output) {
                plotly::layout(title = "No data available for the selected filters"))
     }
     
+    # building plot + aesthetics
     p <- ggplot(agg_data, aes(x = Borough, y = Average_Duration, fill = Borough)) +
       geom_bar(stat = "identity") +
-      labs(title = "Average Response Time by Borough", 
-           y = "Average Duration (Days)", x = "Borough") +
+      # geom_text(aes(label = round(Average_Duration, 1)), vjust = -0.5, size = 4, color = "black") +
+      labs(title = "Average Response Time by Borough",
+           subtitle = "Filtered by Date & Complaint Type",
+           y = "Average Response Time (Days)", x = "Borough") +
+      scale_fill_brewer(palette = "Set2") +
       scale_y_continuous(labels = scales::comma) +
+      theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
     
-    ggplotly(p)
+    ggplotly(p) %>% layout(margin = list(t = 80))
   })
   
   # rendering
