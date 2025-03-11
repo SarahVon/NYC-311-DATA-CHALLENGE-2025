@@ -1,5 +1,6 @@
 library(shiny)
 library(shinydashboard)
+library(scales)
 
 server <- function(input, output) {  
   
@@ -142,22 +143,116 @@ server <- function(input, output) {
   # summary statistics outputs
   output$total_requests <- renderText({
     # total requests count
-    nrow(filtered_summary_data())  
+    format(nrow(filtered_summary_data()), big.mark = ",") 
   })
   
   output$total_request_types <- renderText({
     # unique complaint types 
-    length(unique(filtered_summary_data()$Complaint_Type))
+    format(length(unique(filtered_summary_data()$Complaint_Type)), big.mark = ",")
   })
   
   output$total_sources <- renderText({
     # unique request sources
-    length(unique(filtered_summary_data()$Open_Data_Channel_Type))
+    format(length(unique(filtered_summary_data()$Open_Data_Channel_Type)), big.mark = ",")
   })
   
   output$total_request_agencies <- renderText({
     # unique agencies
-    length(unique(filtered_summary_data()$Agency_Name))  
+    format(length(unique(filtered_summary_data()$Agency_Name)), big.mark = ",")
+  })
+  
+  ### HEAT MAP ###
+  output$complaint_heatmap <- renderPlotly({
+    # define the borough order from top to bottom
+    valid_boroughs <- c("BROOKLYN","QUEENS","BRONX","MANHATTAN","STATEN ISLAND")
+    
+    # define categories in the desired order
+    original_cats <- c(
+      "Public Safety & Crime",
+      "Noise",
+      "Housing & Building",
+      "Sanitation and Environmental",
+      "Transportation & Streets",
+      "City Services & Local Businesses",
+      "Other"
+    )
+    
+    # define multiline labels for categories
+    cat_recode <- c(
+      "Public Safety & Crime"        = "Public<br>Safety & Crime",
+      "Noise"                        = "Noise",
+      "Housing & Building"           = "Housing<br>& Building",
+      "Sanitation and Environmental" = "Sanitation<br>& Environmental",
+      "Transportation & Streets"     = "Transportation<br>& Streets",
+      "City Services & Local Businesses" = "City Services<br>& Local Businesses",
+      "Other"                        = "Other"
+    )
+    
+    # filtering data by date range, group by borough + category
+    df <- filtered_summary_data() %>%
+      filter(Borough %in% valid_boroughs) %>%
+      group_by(Borough, Category) %>%
+      summarise(Count = n(), .groups = "drop") %>%
+      tidyr::complete(
+        Borough  = valid_boroughs,
+        Category = original_cats,
+        fill = list(Count = 0)
+      )
+    
+    # creating a DisplayCat column for multiline category labels
+    df <- df %>%
+      mutate(DisplayCat = cat_recode[as.character(Category)])
+    
+    # finding the maximum count (used to know when to switch text color to white)
+    max_count <- max(df$Count)
+    
+    p <- plot_ly(
+      data = df,
+      x = ~DisplayCat,
+      y = ~Borough,
+      z = ~Count,
+      type = "heatmap",
+      colorscale = list(c(0, "lavender"), c(1, "darkblue")),
+      showscale = FALSE,
+      # use z in hover with commas => %{z:,.0f}
+      hoverinfo = "z",
+      hovertemplate = "borough: %{y}<br>category: %{x}<br>count: %{z:,.0f}<extra></extra>"
+    )
+    
+    # add tile annotations with commas
+    annotations <- lapply(seq_len(nrow(df)), function(i) {
+      this_count <- df$Count[i]
+      # switch to white text if above 75% of max
+      text_color <- if (this_count > 0.75 * max_count) "white" else "black"
+      
+      list(
+        x = df$DisplayCat[i],
+        y = df$Borough[i],
+        # adding commas to counts
+        text = scales::comma(this_count),
+        showarrow = FALSE,
+        font = list(color = text_color, size = 12)
+      )
+    })
+    
+    # placing categories on top
+    p %>% layout(
+      annotations = annotations,
+      xaxis = list(
+        side = "top",
+        title = "",
+        tickangle = 0,
+        categoryorder = "array",
+        categoryarray = cat_recode[original_cats]
+      ),
+      yaxis = list(
+        title = "",
+        categoryorder = "array",
+        categoryarray = valid_boroughs,
+        autorange = "reversed"
+      ),
+      margin = list(l = 50, r = 50, t = 50, b = 50)
+    )
   })
   
   # ────────────────────────────────────────────────────────────

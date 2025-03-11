@@ -132,7 +132,7 @@ body = dashboardBody(
               # complaint counts heatmap
               fluidRow(
                 box(title = "Complaint Counts by Borough", status = "primary", solidHeader = TRUE, width = 12,
-                    plotOutput("complaint_heatmap"))
+                    plotlyOutput("complaint_heatmap", height = "500px"))
               ),
               
               # requests by source & division handling requests

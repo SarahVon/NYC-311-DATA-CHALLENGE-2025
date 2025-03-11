@@ -334,3 +334,8 @@ assign_category <- function(complaint_type) {
   # put in 'other' if not found in above categories
   return("Other") 
 }
+
+# adding a new column "Category" to the data
+data <- data %>%
+  mutate(Category = sapply(Complaint_Type, assign_category))
+
