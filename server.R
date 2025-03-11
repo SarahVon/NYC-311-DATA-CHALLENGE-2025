@@ -1,6 +1,4 @@
-library(shiny)
-library(shinydashboard)
-library(scales)
+## SERVER.R FILE ##
 
 server <- function(input, output) {  
   
@@ -245,8 +243,8 @@ server <- function(input, output) {
     # add tile annotations with commas
     annotations <- lapply(seq_len(nrow(df)), function(i) {
       this_count <- df$Count[i]
-      # switch to white text if above 75% of max
-      text_color <- if (this_count > 0.75 * max_count) "white" else "black"
+      # switch to white text if above 55% of max
+      text_color <- if (this_count > 0.55 * max_count) "white" else "black"
       
       list(
         x = df$DisplayCat[i],
@@ -276,6 +274,142 @@ server <- function(input, output) {
       ),
       margin = list(l = 50, r = 50, t = 50, b = 50)
     )
+  })
+  
+  ### HORIZONTAL BAR CHART FOR SOURCEES** 
+  # reactive data that groups by open_data_channel_type
+  requests_by_source_data <- reactive({
+    filtered_summary_data() %>%
+      mutate(
+        SourceCategory = case_when(
+          # combining unknown and other
+          Open_Data_Channel_Type %in% c("UNKNOWN", "OTHER") ~ "OTHER",
+          Open_Data_Channel_Type == "ONLINE" ~ "WEBSITE",
+          Open_Data_Channel_Type == "PHONE"  ~ "PHONE CALL",
+          Open_Data_Channel_Type == "MOBILE" ~ "MOBILE APP",
+          TRUE ~ as.character(Open_Data_Channel_Type)
+        )
+      ) %>%
+      group_by(SourceCategory) %>%
+      summarise(Count = n(), .groups = "drop")
+  })
+  
+  # rendering the horizontal bar chart
+  output$requests_by_source <- renderPlot({
+    df <- requests_by_source_data() %>%
+      # removing any NA categories if present
+      filter(!is.na(SourceCategory)) %>%
+      arrange(desc(Count))
+    
+    ggplot(df, aes(x = Count, y = reorder(SourceCategory, Count))) +
+      geom_col(fill = "thistle") +
+      labs(x = "Number of Requests", y = NULL) +
+      scale_x_continuous(labels = scales::comma) +
+      theme_minimal(base_size = 13) +  
+      theme(
+        axis.text = element_text(face = "bold"),  
+        axis.title.x = element_text(
+          face = "bold", 
+          # extra space for x-axis title
+          margin = margin(t = 15)  
+        ),
+        axis.title.y = element_blank()
+      )
+  })
+  
+  ### DIVISION DONUT CHART ###
+  # reactive data for top 5 divisions
+  division_data <- reactive({
+    df <- filtered_summary_data()
+    
+    # group by agency name, then sort descending
+    summary_df <- df %>%
+      group_by(Agency_Name) %>%
+      summarise(Count = n(), .groups = "drop") %>%
+      arrange(desc(Count))
+    
+    # keep top 5 only (ignore the rest)
+    top5 <- summary_df[1:5, ]
+    
+    # computing the percentage of total for each
+    total_requests <- sum(top5$Count)
+    top5 <- top5 %>%
+      mutate(Percent = (Count / total_requests) * 100)
+    
+    top5
+  })
+  
+  output$division_handling <- renderPlotly({
+    df <- division_data()
+    
+    # if no data, return nothing
+    if (nrow(df) == 0) return(NULL)
+    
+    # largest slice gets darkest color
+    # reversed Blues palette
+    slice_count <- nrow(df)
+    all_blues <- RColorBrewer::brewer.pal(5, "Blues")
+    color_palette <- rev(all_blues)[1:slice_count]
+    
+    # building our donut with plot_ly
+    plot_ly(
+      data = df,
+      labels = ~Agency_Name,
+      values = ~Count,
+      type = "pie",
+      hole = 0.5,                    
+      marker = list(colors = color_palette),
+      textinfo = "none",             
+      hoverinfo = "text",           
+      text = ~paste0(
+        Agency_Name, 
+        " - ", sprintf("%.1f%%", Percent)
+      ),
+      hovertemplate = "%{text}<extra></extra>"
+    ) %>%
+      layout(
+        # using custom legend below
+        showlegend = FALSE  
+      )
+  })
+  
+  # creating a custom HTML legend showing color boxes & percentages
+  output$division_legend <- renderUI({
+    df <- division_data()
+    
+    # if there's no data, show nothing
+    if (nrow(df) == 0) return(NULL)
+    
+    # reorder largest to smallest
+    df <- df %>% arrange(desc(Count))
+    
+    # build the reversed palette for up to 5 slices
+    slice_count <- nrow(df)
+    all_blues <- RColorBrewer::brewer.pal(5, "Blues")
+    color_palette <- rev(all_blues)[1:slice_count]
+    
+    # create a small data frame with color + text
+    legend_rows <- purrr::map2_df(df$Agency_Name, seq_len(nrow(df)), function(name, i) {
+      tibble::tibble(
+        name = name,
+        color = color_palette[i],
+        percent = sprintf("%.1f%%", df$Percent[i])
+      )
+    })
+    
+    # building HTML for each row in the legend
+    legend_html <- purrr::map_chr(seq_len(nrow(legend_rows)), function(i) {
+      row <- legend_rows[i,]
+      sprintf(
+        '<div style="display:flex; align-items:center; margin-bottom:4px;">
+         <div style="width:15px; height:15px; background:%s; margin-right:8px;"></div>
+         <span style="font-weight:bold;">%s</span>&nbsp; - %s
+       </div>',
+        row$color, row$name, row$percent
+      )
+    }) %>% paste0(collapse = "")
+    
+    HTML(legend_html)
   })
   
   # ────────────────────────────────────────────────────────────

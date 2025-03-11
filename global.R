@@ -1,15 +1,19 @@
+# uncomment if you need to install rsconnect (used to deploy to shinyapps.io)
+# install.packages("rsconnect")
 library(tidyverse)
-library(stringr)
 library(shiny)
-library(readr)
 library(leaflet)
 library(sf)
-library(tigris)  
+library(tigris)
 options(tigris_use_cache = TRUE)
 library(spData)
 library(plotly)
 data("us_states", package = "spData")
 library(lubridate)
+library(shinydashboard)
+library(scales)
+library(RColorBrewer) 
+library(rsconnect)
 
 # commenting the below out for now because my dropbox account was flagged again... 
 
@@ -338,4 +342,3 @@ assign_category <- function(complaint_type) {
 # adding a new column "Category" to the data
 data <- data %>%
   mutate(Category = sapply(Complaint_Type, assign_category))
-
