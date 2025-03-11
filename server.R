@@ -119,11 +119,46 @@ server <- function(input, output) {
   })
   
   # ────────────────────────────────────────────────────────────
-  # VISUALIZATION 3: [Title of Viz]
-  # Contributor: [Group Member]
+  # VISUALIZATION 3: Summary
+  # Contributor: Sarah Anderson
   # ────────────────────────────────────────────────────────────
+
+  # filtering data based on selection
+  filtered_summary_data <- reactive({
+    req(input$date_range_summary)
+    
+    # getting date range based on input
+    end_date <- as.Date("2024-12-31") 
+    start_date <- switch(input$date_range_summary,
+                         "Past Month" = end_date - 30,
+                         "Past 3 Months" = end_date - 90,
+                         "Past 6 Months" = end_date - 180,
+                         "Past Year" = as.Date("2024-01-01"))
+    
+    data %>%
+      filter(Created_Date >= start_date & Created_Date <= end_date)
+  })
   
-  # output$viz3_plot <- renderPlot({...}) 
+  # summary statistics outputs
+  output$total_requests <- renderText({
+    # total requests count
+    nrow(filtered_summary_data())  
+  })
+  
+  output$total_request_types <- renderText({
+    # unique complaint types 
+    length(unique(filtered_summary_data()$Complaint_Type))
+  })
+  
+  output$total_sources <- renderText({
+    # unique request sources
+    length(unique(filtered_summary_data()$Open_Data_Channel_Type))
+  })
+  
+  output$total_request_agencies <- renderText({
+    # unique agencies
+    length(unique(filtered_summary_data()$Agency_Name))  
+  })
   
   # ────────────────────────────────────────────────────────────
   # VISUALIZATION 4: [Title of Viz]

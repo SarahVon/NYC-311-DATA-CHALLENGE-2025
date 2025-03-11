@@ -107,57 +107,40 @@ body = dashboardBody(
     tabItem(tabName = "viz_3",
             fluidPage(
               titlePanel("Summary Dashboard"),
+              
+              # date selection & summary stats
               fluidRow(
-                
-                # date selection box
-                column(6, 
-                       box(title = "Select Date Range", width = NULL, solidHeader = TRUE, status = "primary",
-                           selectInput("summary_date_range", 
-                                       "Choose a Date Range:", 
-                                       choices = c("Past Month" = "1m", 
-                                                   "Past 3 Months" = "3m",
-                                                   "Past 6 Months" = "6m",
-                                                   "Past Year" = "12m"),
-                                       selected = "12m"))
+                box(
+                  title = "Select Date Range", status = "primary", solidHeader = TRUE,
+                  selectInput("date_range_summary", "Choose a Date Range:",
+                              choices = c("Past Month", "Past 3 Months", "Past 6 Months", "Past Year"),
+                              selected = "Past Year")
                 ),
-                
-                # summary statistics box with four quadrants
-                column(6, 
-                       box(title = "Summary Statistics", width = NULL, solidHeader = TRUE, status = "info",
-                           fluidRow(
-                             column(6, valueBoxOutput("total_requests"), 
-                                    h5("Requests", align = "center")),
-                             column(6, valueBoxOutput("total_types"), 
-                                    h5("Request Types", align = "center"))
-                           ),
-                           fluidRow(
-                             column(6, valueBoxOutput("total_sources"), 
-                                    h5("Sources", align = "center")),
-                             column(6, valueBoxOutput("total_agencies"), 
-                                    h5("Request Agency", align = "center"))
-                           )
-                       )
+                box(
+                  title = "Summary Statistics", status = "info", solidHeader = TRUE, width = 6,
+                  fluidRow(
+                    column(6, div(h3(textOutput("total_requests")), "Requests")),
+                    column(6, div(h3(textOutput("total_request_types")), "Request Types"))
+                  ),
+                  fluidRow(
+                    column(6, div(h3(textOutput("total_sources")), "Sources")),
+                    column(6, div(h3(textOutput("total_request_agencies")), "Request Agency"))
+                  )
                 )
               ),
               
-              # complaint heatmap
+              # complaint counts heatmap
               fluidRow(
-                column(12, 
-                       box(title = "Complaint Counts by Borough", width = 12, solidHeader = TRUE, status = "primary",
-                           plotOutput("complaint_heatmap"))
-                )
+                box(title = "Complaint Counts by Borough", status = "primary", solidHeader = TRUE, width = 12,
+                    plotOutput("complaint_heatmap"))
               ),
               
-              # request source & division distribution
+              # requests by source & division handling requests
               fluidRow(
-                column(6, 
-                       box(title = "Total Requests by Source", width = 12, solidHeader = TRUE, status = "info",
-                           plotOutput("request_source_chart"))
-                ),
-                column(6, 
-                       box(title = "Division Handling Requests", width = 12, solidHeader = TRUE, status = "info",
-                           plotOutput("request_division_chart"))
-                )
+                box(title = "Total Requests by Source", status = "info", solidHeader = TRUE, width = 6,
+                    plotOutput("requests_by_source")),
+                box(title = "Division Handling Requests", status = "info", solidHeader = TRUE, width = 6,
+                    plotOutput("division_handling"))
               )
             )
     ),
@@ -171,4 +154,3 @@ body = dashboardBody(
 
 # dashboard page
 dashboardPage(header, sidebar, body)
-
