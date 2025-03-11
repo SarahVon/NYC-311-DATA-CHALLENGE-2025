@@ -200,12 +200,12 @@ server <- function(input, output) {
     
     # define multiline labels for categories
     cat_recode <- c(
-      "Public Safety & Crime"        = "Public<br>Safety & Crime",
+      "Public Safety & Crime"        = "Public Safety<br>& Crime",
       "Noise"                        = "Noise",
-      "Housing & Building"           = "Housing<br>& Building",
-      "Sanitation and Environmental" = "Sanitation<br>& Environmental",
+      "Housing & Building"           = "Housing &<br>Building",
+      "Sanitation and Environmental" = "Sanitation &<br>Environmental",
       "Transportation & Streets"     = "Transportation<br>& Streets",
-      "City Services & Local Businesses" = "City Services<br>& Local Businesses",
+      "City Services & Local Businesses" = "City Services &<br>Local Businesses",
       "Other"                        = "Other"
     )
     
@@ -237,7 +237,8 @@ server <- function(input, output) {
       showscale = FALSE,
       # use z in hover with commas => %{z:,.0f}
       hoverinfo = "z",
-      hovertemplate = "borough: %{y}<br>category: %{x}<br>count: %{z:,.0f}<extra></extra>"
+      hovertemplate = "borough: %{y}<br>category: %{x}<br>count: %{z:,.0f}<extra></extra>",
+      textfont = list(size = 8)
     )
     
     # add tile annotations with commas
@@ -258,6 +259,7 @@ server <- function(input, output) {
     
     # placing categories on top
     p %>% layout(
+      autosize = TRUE,
       annotations = annotations,
       xaxis = list(
         side = "top",
