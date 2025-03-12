@@ -34,7 +34,12 @@ body = dashboardBody(
               p("The data is dynamically filtered based on user selections. The average response time 
               for complaints is calculated and visualized through bar charts and time series plots. 
               Additionally, summary statistics and a heatmap provide deeper insights into complaint 
-              distribution. (please add in more details about your visuals)."),
+              distribution.The visuals include a dropdown menu for selecting New York City boroughs,
+                allowing the user to focus on specific regions. Once a borough is selected, the map 
+                dynamically displays the outlines of the chosen borough, providing a geographic context. 
+                Alongside this, a bar graph presents the top ten complaint categories for that borough, 
+                helping users understand the most common issues reported in the area. These visuals allow
+                for quick comparison between boroughs and detailed exploration of the data.,
               
               p("Limitations: Data quality issues..."),
               
