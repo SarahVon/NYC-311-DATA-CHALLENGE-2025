@@ -88,7 +88,7 @@ body = dashboardBody(
 
               # left (Date Slider + Filters) & right (Time Series Chart)
               fluidRow(
-                column(4,  
+                column(3,  
                        div(
                          # date Range Slider (Top)
                          sliderInput("date_range", "Select Date Range (2024):", 
@@ -113,7 +113,7 @@ body = dashboardBody(
                        )
                 ),
                 
-                column(8, plotlyOutput("response_time_trend"))  # right Side: Time Series Chart
+                column(9, plotlyOutput("response_time_trend"))  # right Side: Time Series Chart
               )
             )
     ),
