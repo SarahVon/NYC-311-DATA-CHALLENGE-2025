@@ -55,6 +55,15 @@ server <- function(input, output) {
   # Contributor: May Benisa
   # ────────────────────────────────────────────────────────────
   
+  #defining colors for each borough
+  borough_colorz <- c(
+    "BRONX" = "#1f77b4",
+    "BROOKLYN" = "#ff7f0e",
+    "MANHATTAN" = "#2ca02c",
+    "QUEENS" = "#d62728",
+    "STATEN ISLAND" = "#9467bd"
+  )
+  
   # reactive dataset based on user selections
   filtered_data <- reactive({
     req(input$date_range)
@@ -106,11 +115,10 @@ server <- function(input, output) {
     # building plot + aesthetics for main plot
     p <- ggplot(agg_data, aes(x = Borough, y = Average_Duration, fill = Borough)) +
       geom_bar(stat = "identity") +
-      # geom_text(aes(label = round(Average_Duration, 1)), vjust = -0.5, size = 4, color = "black") +
       labs(title = "Average Response Time by Borough",
            subtitle = "Filtered by Date & Complaint Type",
            y = "Avg Response Time (Days)", x = "Borough") +
-      scale_fill_brewer(palette = "Set2") +
+      scale_fill_manual(values = borough_colorz) +
       scale_y_continuous(labels = scales::comma) +
       theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -121,6 +129,7 @@ server <- function(input, output) {
   # rendering time series chart for Response Time Trend
   output$response_time_trend <- renderPlotly({
     trend_data <- filtered_data() %>%
+      filter(Borough != "Unspecified") %>%
       group_by(Created_Date, Borough) %>%
       summarise(Average_Duration = mean(Duration, na.rm = TRUE), .groups = "drop")
     
@@ -129,15 +138,19 @@ server <- function(input, output) {
                plotly::layout(title = "No data available for the selected filters"))
     }
     
-    p <- ggplot(trend_data, aes(x = Created_Date, y = Average_Duration)) +
-      geom_line(color = "blue", size = 0.5) + # fixing line thickness
-      geom_point(size = 1.2, color = "red") + # fixing point size
+    p <- ggplot(trend_data, aes(x = Created_Date, y = Average_Duration, color = Borough, group = Borough)) +
+      geom_smooth(method = "loess", se = FALSE, size = 1.2) +
+      scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") +
+      scale_color_manual(values = borough_colorz) +
       labs(title = "Response Time Trends: How Quickly Are Complaints Resolved?",
            subtitle = "Tracking changes in average response time",
-           y = "Avg Response Time (Days)", x = "Date") +
-      theme_minimal()
+           y = "Avg Response Time (Days)", 
+           x = "Date") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
     
-    ggplotly(p)
+    ggplotly(p, tooltip = c("x", "y", "color"))
+    
   })
   
   # ────────────────────────────────────────────────────────────
