@@ -121,7 +121,7 @@ server <- function(input, output) {
   # rendering time series chart for Response Time Trend
   output$response_time_trend <- renderPlotly({
     trend_data <- filtered_data() %>%
-      group_by(Created_Date) %>%
+      group_by(Created_Date, Borough) %>%
       summarise(Average_Duration = mean(Duration, na.rm = TRUE), .groups = "drop")
     
     if(nrow(trend_data) == 0) {
