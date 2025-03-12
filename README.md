@@ -1,5 +1,4 @@
 # NYC-complaints
-[Replace this page with your README]
 This is the data dashboard challenge for the Winter 2025 BIS 412 Advanced Data Visualization course. The challenge uses data from New York City's 311 complaint data to visualize the temporal and spatial aspects of common issues raised by residents.
 
 # Overview
