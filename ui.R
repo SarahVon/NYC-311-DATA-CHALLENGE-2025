@@ -39,7 +39,7 @@ body = dashboardBody(
                 dynamically displays the outlines of the chosen borough, providing a geographic context. 
                 Alongside this, a bar graph presents the top ten complaint categories for that borough, 
                 helping users understand the most common issues reported in the area. These visuals allow
-                for quick comparison between boroughs and detailed exploration of the data.",
+                for quick comparison between boroughs and detailed exploration of the data."),
               
               p("Limitations: There are several limitations to consider. Data quality issues, such as missing
                 or incomplete records, may impact the accuracy of the analysis. Additionally, certain boroughs
@@ -104,7 +104,7 @@ body = dashboardBody(
                          sliderInput("date_range", "Select Date Range (2024):", 
                                      min = as.Date("2024-01-01"),
                                      max = as.Date("2024-12-31"),
-                                     value = c(as.Date("2024-09-17"), as.Date("2024-12-31")),
+                                     value = c(as.Date("2024-01-01"), as.Date("2024-12-31")),
                                      timeFormat = "%Y-%m-%d"),
                          br(),
                          
