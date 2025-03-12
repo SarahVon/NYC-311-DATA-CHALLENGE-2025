@@ -88,7 +88,7 @@ body = dashboardBody(
 
               # left (Date Slider + Filters) & right (Time Series Chart)
               fluidRow(
-                column(6,  
+                column(4,  
                        div(
                          # date Range Slider (Top)
                          sliderInput("date_range", "Select Date Range (2024):", 
@@ -98,7 +98,7 @@ body = dashboardBody(
                                      timeFormat = "%Y-%m-%d"),
                          br(),
                          
-                         # vorough Filter (Directly Below)
+                         # borough Filter (Directly Below)
                          selectInput("borough_filter", "Select Borough(s):",
                                      choices = c("All Boroughs", borough_choices),
                                      selected = "All Boroughs",
@@ -113,7 +113,7 @@ body = dashboardBody(
                        )
                 ),
                 
-                column(6, plotlyOutput("response_time_trend"))  # right Side: Time Series Chart
+                column(8, plotlyOutput("response_time_trend"))  # right Side: Time Series Chart
               )
             )
     ),
