@@ -22,7 +22,7 @@ body = dashboardBody(
             fluidPage(
               h1("About"),
               
-              h2("Purpose and Objective"),
+              h3("Purpose and Objective"),
               p("The primary purpose of this dashboard is to explore and 
                 analyze NYC 311 Service Request data and to offer insights 
                 into complaint patterns, geographic distribution, and response 
@@ -30,26 +30,27 @@ body = dashboardBody(
                 to guide users in understanding public service efficiency 
                 and identifying potential areas for improvement."),
               
-              h2("Statistical Analysis Documentation"),
-              p("This dashboard includes a statistical analysis of average 
-              response times by borough. 
-                The analysis is performed by calculating the mean number of days
-                between the creation and closure of service requests. 
-                A lower average response time indicates more efficient handling 
-                of service requests, whereas higher values may suggest delays."),
+              h3("Statistical Analysis Documentation"),
+              p("The data is dynamically filtered based on user selections. The average response time 
+              for complaints is calculated and visualized through bar charts and time series plots. 
+              Additionally, summary statistics and a heatmap provide deeper insights into complaint 
+              distribution. (please add in more details about your visuals)."),
+              
               p("Limitations: Data quality issues..."),
               
-              h2("Challenge and Dashboard Goals"),
-              p("The challenge addressed by this dashboard is to transform a large,
-                multifaceted dataset into an interactive tool that not only visualizes 
+              h3("Challenge and Dashboard Goals"),
+              p("The challenge addressed by this dashboard is to transform the NYC 311 service request dataset
+                into an interactive tool that not only visualizes 
                 the data but also provides actionable insights for users. 
-                The goals include enhancing transparency in NYC service operations, 
-                enabling data-driven insights for policymakers and stakeholders, 
-                and allowing interactive exploration of the data through filtering options."),
-              p("For More Information Checkout the Link Below: ",
-                a("https://github.com/UWB-Adv-Data-Vis/NYC-complaints.git", 
-                  href = "https://github.com/UWB-Adv-Data-Vis/NYC-complaints.git", target = "_blank")
-            ))
+                The goals include analyzing response efficiency, service trends, and borough-level variations."),
+              
+              h3("Links & Documentation"),
+              p("This project is based on the NYC 311 service request dataset, which contains information on 
+                complaints submitted by residents regarding various city issues. This challenge uses data from 2024"),
+              p("View the Challenge: ",
+                  a("Github Repository", href = "https://github.com/UWB-Adv-Data-Vis/NYC-complaints.git", target = "_blank")),
+              p("View The Team's Repository: "),
+            )
     ),
     
     # first visualization tab content
