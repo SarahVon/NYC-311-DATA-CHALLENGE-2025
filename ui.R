@@ -39,9 +39,13 @@ body = dashboardBody(
                 dynamically displays the outlines of the chosen borough, providing a geographic context. 
                 Alongside this, a bar graph presents the top ten complaint categories for that borough, 
                 helping users understand the most common issues reported in the area. These visuals allow
-                for quick comparison between boroughs and detailed exploration of the data.,
+                for quick comparison between boroughs and detailed exploration of the data.",
               
-              p("Limitations: Data quality issues..."),
+              p("Limitations: There are several limitations to consider. Data quality issues, such as missing
+                or incomplete records, may impact the accuracy of the analysis. Additionally, certain boroughs
+                may have more complaints reported due to higher awareness or easier access to reporting channels. 
+                Response times may also vary depending on the nature of the complaint, and external factors like 
+                seasonal trends or public events could influence complaint frequencies and response times."),
               
               h3("Challenge and Dashboard Goals"),
               p("The challenge addressed by this dashboard is to transform the NYC 311 service request dataset
