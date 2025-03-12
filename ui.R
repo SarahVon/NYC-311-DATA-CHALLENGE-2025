@@ -41,7 +41,8 @@ body = dashboardBody(
                 helping users understand the most common issues reported in the area. These visuals allow
                 for quick comparison between boroughs and detailed exploration of the data."),
               
-              p("Limitations: There are several limitations to consider. Data quality issues, such as missing
+              h3("Limitations"),
+              p("There are several limitations to consider. Data quality issues, such as missing
                 or incomplete records, may impact the accuracy of the analysis. Additionally, certain boroughs
                 may have more complaints reported due to higher awareness or easier access to reporting channels. 
                 Response times may also vary depending on the nature of the complaint, and external factors like 
