@@ -199,7 +199,15 @@ body = dashboardBody(
     
     # fourth visualization tab content
     tabItem(tabName = "viz_4",
-            fluidPage()
+            fluidRow(
+              box(
+                title = "Top 10 Parks with Most 311 Complaints",
+                status = "primary",
+                solidHeader = TRUE,
+                width = 12,
+                plotlyOutput("viz4_plot", height = "500px")
+              )
+            )
     )
   )
 )
