@@ -10,7 +10,7 @@ sidebar = dashboardSidebar(
     menuItem("General Overview", tabName = "viz_3", icon = icon("chart-bar")),
     menuItem("Top 10 Complaints", tabName = "viz_1", icon = icon("map")),
     menuItem("Average Response Time", tabName = "viz_2", icon = icon("clock")),
-    menuItem("viz 4", tabName = "viz_4")
+    menuItem("Parks Complaints", tabName = "viz_4", icon = icon("tree"))
   )
 )
 
