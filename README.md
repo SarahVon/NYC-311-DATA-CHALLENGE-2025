@@ -29,6 +29,18 @@ allowing users to explore patterns and trends in a user-friendly fashion.
 This work is part of our BIS 412 Advanced Data Visualization course challenge 
 (Challenge A: Exploratory Visualization).
 
+**NOTE:** The NYC 311 system collects a wide range of information from citizens—including 
+complaints, requests, reports, and even *compliments*. For the remainder of this 
+README, we will refer to these entries as **"submissions**."
+
+### Primary Dashboard Features: 
+* Top 10 submission types by borough  
+* Summary statistics on submission types, sources, and agencies
+* Temporal trends in submission volume
+* Geospatial distribution of submissions
+* Response times by submission type
+* Top 10 NYC Parks with the most submissions
+
 ## Data Source and Access
 
 ## Dashboard and Description
