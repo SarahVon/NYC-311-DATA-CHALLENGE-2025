@@ -10,11 +10,23 @@
 * Aryana Villafuerte [@4ryana](https://github.com/4ryana)
 * May Benisa [@maybenisa](https://github.com/maybenisa)
 
-# Overview
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Data Source and Access](#data-source-and-access)
+- [Dashboard Description](#dashboard-description)
+- [How to View the Dashboard](#how-to-view-the-dashboard)
+- [Data Biography](#data-biography)
+- [References and Additional Resources](#references-and-additional-resources)
+
+## Project Overview
 
 - 📊 Challenge created by and made for the Winter 2025 BIS 412 Advanced Data Visualization course at the University of Washington Bothell.
 
-# Description
+## Data Source and Access
+
+## Dashboard and Description
 
 The challenge is to develop an interactive dashboard that analyzes NYC 311 service requests from NYCOpenData. 
 This dashboard's objective is to use historical and real-time data visualizations to give relevant insights to viewers. 
@@ -24,11 +36,12 @@ Visualization course. The challenge uses data from New York City's 311 complaint
 data to visualize the temporal and spatial aspects of common issues raised by 
 residents.
 
-# Explain how to access the webpage:
+## How to View the Dashboard
 
-# References
+## Data Biography
 
-## Additional Information
+## References and Additional Resources
+
 For more details on the different challenges and to see the original repository, 
 please visit the [original NYC-complaints repository](https://github.com/UWB-Adv-Data-Vis/NYC-complaints).
 
