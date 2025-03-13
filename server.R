@@ -427,12 +427,38 @@ server <- function(input, output) {
     HTML(legend_html)
   })
   
-  # ────────────────────────────────────────────────────────────
-  # VISUALIZATION 4: [Title of Viz]
-  # Contributor: [Group Member]
+# ────────────────────────────────────────────────────────────
+  # VISUALIZATION 4: Top 10 Parks with most 311 Complaints
+  # Contributor: Aryana Villafuerte
   # ────────────────────────────────────────────────────────────
   
-  # output$viz4_plot <- renderPlot({...}) 
+  # Reactive expression to filter and summarize complaints by park
+  top_parks_data <- reactive({
+    data %>%
+      # filtering out n/a vals, empty strings, and unspecified parks
+      filter(!is.na(Park_Facility_Name),
+             Park_Facility_Name != "",
+             Park_Facility_Name != "Unspecified") %>% 
+      group_by(Park_Facility_Name, Borough) %>%
+      tally(sort = TRUE) %>%
+      arrange(desc(n)) %>%
+      head(10)
+  })
+  
+  output$viz4_plot <- renderPlotly({
+      p <- ggplot(top_parks_data(), aes(x = reorder(Park_Facility_Name, n), y = n, text = paste("BOROUGH: ", Borough))) +
+      geom_bar(stat = "identity", fill = "steelblue") +
+      coord_flip() +
+      labs(x = "Park Name",
+           y = "Number of Complaints") +
+      theme_minimal() 
+        
+      ggplotly(p, tooltip = "text")  %>%
+        layout(
+          hoverlabel = list(bgcolor = "lightblue", font = list(color = "black"))  # Sets hover color
+        )%>%
+      config(displayModeBar = FALSE)  # Hides the Plotly toolbar
+  })
   
 }
 
