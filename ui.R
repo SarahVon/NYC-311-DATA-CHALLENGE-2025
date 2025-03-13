@@ -58,8 +58,9 @@ body = dashboardBody(
               p("This project is based on the NYC 311 service request dataset, which contains information on 
                 complaints submitted by residents regarding various city issues. This challenge uses data from 2024"),
               p("View the Challenge: ",
-                  a("Github Repository", href = "https://github.com/UWB-Adv-Data-Vis/NYC-complaints.git", target = "_blank")),
-              p("View The Team's Repository: "),
+                  a("Github Repository", href = "https://github.com/UWB-Adv-Data-Vis-2025-Wi-A/data-challenge-nyc-311-samm/blob/main/README.md", target = "_blank")),
+              p("View The Team's Repository: ",
+                a("Team Repository", href = "https://github.com/UWB-Adv-Data-Vis-2025-Wi-A/data-challenge-nyc-311-samm.git", target = "_blank")),
             )
     ),
     
