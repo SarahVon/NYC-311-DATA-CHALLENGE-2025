@@ -101,22 +101,49 @@ Our Shiny dashboard contains multiple tabs, each focusing on variable aspects of
 5. **Top 10 Park Submissions**  
    This tab focuses on the NYC parks with the highest number of submissions. 
 
-
-
-
-
 ## How to View the Dashboard
-
+This dashboard was deployed to shinyapps.io and can be accessed using the following link:  
+[**NYC 311 Data Dashboard - Team SAMM**]() <-- insert link once deployed
 
 
 ## Data Biography
 
+The **311 Service Requests from 2010 to Present** dataset is maintained by NYC Open Data and updated daily. Each row represents a unique complaint or service request submitted by NYC residents.
+
+- **Temporal Coverage:** We specifically used 2024 data.  
+- **Geographic Coverage:** All five NYC boroughs (Manhattan, Brooklyn, Queens, The Bronx, Staten Island).  
+- **Size:** 3+ million rows for 2024 alone.  
+- **Data Fields:** Key fields include `Complaint_Type`, `Borough`, `Created_Date`, `Closed_Date`, `Park_Facility_Name`, `Open_Data_Channel_Type`, and more.  
+- **Uses:** Government agencies, city planners, and the public can track issues and allocate resources.  
+- **Limitations:** Some requests may contain incomplete or “Unspecified” data. Response time can be affected by how agencies record close-out dates.
 
 
 ## References and Additional Resources
 
+- **NYC Open Data Portal**  
+  - [311 Service Requests from 2010 to Present](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9)
+- **NYC 311 Data Dictionary**  
+  Provided under “Attachments” on the dataset page or in this repository (`311_Data_Dictionary.xlsx`).
+- **Socrata / RSocrata**  
+  - [Socrata Developer Portal](https://dev.socrata.com/)  
+  - [RSocrata R Package](https://cran.r-project.org/web/packages/RSocrata/RSocrata.pdf)
+
+
 For more details on the different challenges and to see the original repository, 
 please visit the [original NYC-complaints repository](https://github.com/UWB-Adv-Data-Vis/NYC-complaints).
+
+
+**CITATIONS**  
+
+- **311 (2025)**  
+  *311 Service Requests from 2010 to Present: NYC Open Data, 311 Service Requests from 2010 to Present | NYC Open Data.*  
+  Available at: [https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9)  
+  (Accessed: 13 February 2025).
+
+- **Andrews, C. (2024)**  
+  *From calls to insights: Analyzing service requests in Calgary, Medium.*  
+  Available at: [https://medium.com/@carolyn.A13/from-calls-to-insights-analyzing-311-service-requests-in-calgary-bc24d917d5c9](https://medium.com/@carolyn.A13/from-calls-to-insights-analyzing-311-service-requests-in-calgary-bc24d917d5c9)  
+  (Accessed: 13 February 2025).
 
 
 
