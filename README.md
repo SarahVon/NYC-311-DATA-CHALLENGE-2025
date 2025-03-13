@@ -20,7 +20,7 @@
 - [Data Biography](#data-biography)
 - [References and Additional Resources](#references-and-additional-resources)
 
----
+
 
 ## Project Overview
 
@@ -45,7 +45,7 @@ README, we will refer to these entries as **"submissions**."
 
 We built this dashboard using **Shiny, Tidyverse, Leaflet, Plotly,** and other packages. 
 
----
+
 
 ## Data Source and Access
 
@@ -70,7 +70,7 @@ download URL, which allowed our Shiny app to read the CSV file dynamically.
 
 
 
----
+
 
 ## Dashboard and Description
 
@@ -82,15 +82,15 @@ Visualization course. The challenge uses data from New York City's 311 complaint
 data to visualize the temporal and spatial aspects of common issues raised by 
 residents.
 
----
+
 
 ## How to View the Dashboard
 
----
+
 
 ## Data Biography
 
----
+
 
 ## References and Additional Resources
 
