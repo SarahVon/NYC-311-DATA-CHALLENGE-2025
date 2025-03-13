@@ -1,5 +1,6 @@
 # uncomment if you need to install rsconnect (used to deploy to shinyapps.io)
 # install.packages("rsconnect")
+# install.packages("arrow")
 library(tidyverse)
 library(shiny)
 library(leaflet)
@@ -14,16 +15,26 @@ library(shinydashboard)
 library(scales)
 library(RColorBrewer) 
 library(rsconnect)
+library(arrow)
 
-# dropbox direct download link to access large file (+2gb)
-dataset_url <- "https://www.dropbox.com/scl/fi/os1x9i7sx1io5ura5fjti/311_DATA.csv?rlkey=quw01tcso6lz3u3vtx7seoalc&st=634psn3v&dl=1"
- 
-# read data directly from Dropbox
-data <- read_csv(dataset_url)
 
-# line to read in local version of data when dropbox link is not working (COMMENTING OUT TO DEPLOY w/ 
-# DIRECT DOWNLOAD LINK FROM DROPBOX)
-# data <- read_csv("311_DATA.csv")
+# dropbox direct download link to read in RDS file
+dataset_url <- "https://www.dropbox.com/scl/fi/ktz8ts2t0i4hfp8mj1sgv/311_DATA.rds?rlkey=rllw5u7iqr3ddm75wp6xe8yeh&st=v1t72f4u&dl=1"
+
+# creating a temp file path with .rds extension
+temp_file <- tempfile(fileext = ".rds")
+
+# downloading RDS file in binary mode
+download.file(dataset_url, destfile = temp_file, mode = "wb")
+
+# reading in the new local file
+data <- readRDS(temp_file)
+
+# read in RDS file from local directory
+# data <- readRDS("311_DATA.rds")
+
+# read in local CSV file
+# data <- read.csv("311_DATA.csv")
 
 # splitting 'Created Date' into separate date and time columns
 data <- data %>%
