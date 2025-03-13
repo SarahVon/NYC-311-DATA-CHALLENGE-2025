@@ -4,3 +4,14 @@
 .Ruserdata
 group_project.Rproj
 
+# Ignore specific files
+311_DATA.csv
+My_shiny_visual.Rmd
+app.R
+beatrix_kiddo.Rmd
+data-challenge-nyc-311-samm.Rproj.orig
+data_1.csv
+data_exp.Rmd
+lets_test_this.Rmd
+lets_test_this.html
+.DS_Store
