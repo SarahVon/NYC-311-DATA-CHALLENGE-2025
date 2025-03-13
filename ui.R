@@ -31,15 +31,24 @@ body = dashboardBody(
                 and identifying potential areas for improvement."),
               
               h3("Statistical Analysis Documentation"),
-              p("The data is dynamically filtered based on user selections. The average response time 
-              for complaints is calculated and visualized through bar charts and time series plots. 
-              Additionally, summary statistics and a heatmap provide deeper insights into complaint 
-              distribution.The visuals include a dropdown menu for selecting New York City boroughs,
-                allowing the user to focus on specific regions. Once a borough is selected, the map 
-                dynamically displays the outlines of the chosen borough, providing a geographic context. 
-                Alongside this, a bar graph presents the top ten complaint categories for that borough, 
-                helping users understand the most common issues reported in the area. These visuals allow
-                for quick comparison between boroughs and detailed exploration of the data."),
+              p("This dashboard dynamically filters and visualizes service request data 
+              to provide insights into submission trends, response times, and public service
+              efficiency across New York boroughs. The general overview section
+              includes a heatmap which categorizes 191 unique submission types
+              into seven distinct categories in order to highlight major trends.
+              Users can also interact with a Leaflet map displaying
+              the five boroughs while also looking at a plot of the top ten complaints
+              for each borough. The average response time section includes an interactive
+              bar chart comparing response efficiency by complaint type and a time series plot 
+              tracking response time trends. Response time was calculated as the difference 
+              between the creation date of each submission  and the close date. This allowed
+              for a clear comparison of service efficiency across submission types and boroughs. This
+              section also includes a requests-over-time plot which uses an average response time trendline 
+              for each borough. These plots will allow users explore how submission response time changes throughout the year. 
+              Users can filter data using dropdown menus and date sliders, allowing for an in-depth
+              exploration of submission trends. Lastly, this dashboard includes an interactive plot
+              showcasing the top ten parks with the most submissions, along with the borough each park 
+              lies in."),
               
               h3("Limitations"),
               p("There are several limitations to consider. Data quality issues, such as missing
