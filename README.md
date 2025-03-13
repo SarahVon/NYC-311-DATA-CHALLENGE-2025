@@ -33,7 +33,7 @@ This work is part of our BIS 412 Advanced Data Visualization course challenge
 
 **NOTE:** The NYC 311 system collects a wide range of information from citizens—including 
 complaints, requests, reports, and even *compliments*. For the remainder of this 
-README, we will refer to these entries as **"submissions**."
+README, we will refer to these entries as **"submissions**"
 
 ### Primary Dashboard Features: 
 * Top 10 submission types by borough  
@@ -68,19 +68,40 @@ download URL, which allowed our Shiny app to read the CSV file dynamically.
       
          - Direct Download URL: `https://www.dropbox.com/s/abc123/311_data.csv?dl=1`  
 
-
+3. **Data Dictionary**   
+The NYC Open Data Portal provides a Data Dictionary (provided in the repository) explaining each 
+field (e.g., Complaint Type, Borough, Created Date, etc.). We consulted it to clarify variable 
+definitions and to make sure we were consistently interpreting the data correctly.
 
 
 
 ## Dashboard and Description
 
-The challenge is to develop an interactive dashboard that analyzes NYC 311 service requests from NYCOpenData. 
-This dashboard's objective is to use historical and real-time data visualizations to give relevant insights to viewers. 
+Our Shiny dashboard contains multiple tabs, each focusing on variable aspects of the NYC 311 Data.
 
-This is the data dashboard challenge for the Winter 2025 BIS 412 Advanced Data 
-Visualization course. The challenge uses data from New York City's 311 complaint 
-data to visualize the temporal and spatial aspects of common issues raised by 
-residents.
+1. **About**  
+   This tab provides a brief overview of the dataset and the dashboard's purpose.
+
+2. **General Overview**  
+   This tab offers a general overview of the dataset, filterable by date ranges, and includes:
+   - Total submissions, number of unique submission types, sources, and agencies
+   - A heat map showing the distribution and counts of submissions across NYC boroughs
+   - A horizontal bar chart displaying the number of submissions by method of reporting (online, phone, etc.)
+   - A donut chart showing the distribution of submissions by agency (who is responsible for addressing the submission)
+
+3. **Top 10 Submissions**  
+   This tab highlights the top 10 most common submission types based on Borough, and includes:
+   - Filtering by borough
+   - A horizontal bar chart showing the top 10 submission types
+   - A map highlighting the different boroughs of NYC.
+
+4. **Average Response Time**  
+   This tab displays response time by borough and over time.
+
+5. **Top 10 Park Submissions**  
+   This tab focuses on the NYC parks with the highest number of submissions. 
+
+
 
 
 
