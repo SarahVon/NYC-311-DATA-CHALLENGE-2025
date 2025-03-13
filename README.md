@@ -22,7 +22,12 @@
 
 ## Project Overview
 
-- 📊 Challenge created by and made for the Winter 2025 BIS 412 Advanced Data Visualization course at the University of Washington Bothell.
+This repository contains our **interactive Shiny dashboard** exploring **NYC 311 
+service requests** filtered for the year 2024. Our goal is to provide a broad 
+overview of complaint types, geographic distributions, and response times, 
+allowing users to explore patterns and trends in a user-friendly fashion. 
+This work is part of our BIS 412 Advanced Data Visualization course challenge 
+(Challenge A: Exploratory Visualization).
 
 ## Data Source and Access
 
