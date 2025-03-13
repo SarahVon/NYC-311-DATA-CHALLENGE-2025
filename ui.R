@@ -24,7 +24,7 @@ body = dashboardBody(
               
               h3("Purpose and Objective"),
               p("The primary purpose of this dashboard is to explore and 
-                analyze NYC 311 Service Request data and to offer insights 
+                analyze the NYC 311 Service Request data and to offer insights 
                 into complaint patterns, geographic distribution, and response 
                 times across different boroughs. The dashboard is designed 
                 to guide users in understanding public service efficiency 
