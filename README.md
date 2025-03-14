@@ -35,7 +35,7 @@ _**NOTE:**_ The NYC 311 system collects a wide range of information from citizen
 complaints, requests, reports, and even *compliments*. For the remainder of this 
 README, we will refer to these entries as **"submissions**"
 
-**Primary Dashboard Features: **  
+**Primary Dashboard Features:**  
 
 * Top 10 submission types by borough  
 * Summary statistics on submission types, sources, and agencies
@@ -52,12 +52,12 @@ We built this dashboard using **Shiny, Tidyverse, Leaflet, Plotly,** and other p
 
 The data used in this project is sourced from the [NYC Open Data](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9/about_data)
 
-1. **Filtering for 2024**
+1. **Filtering for 2024**  
 We used NYC Open Data’s “Query Data” feature (found under the “Actions” button 
 on the dataset’s page) to filter submissions *Created Date* for the year 2024 only. 
 That produced a file with over 3 million rows.
 
-2. **Exporting & Hosting**
+2. **Exporting & Hosting**  
 Because GitHub’s size limits prevent hosting multi-gigabyte files, we stored the 
 dataset on Dropbox. We then modified our Dropbox share link to create a direct 
 download URL, which allowed our Shiny app to read the data dynamically.
@@ -69,7 +69,7 @@ download URL, which allowed our Shiny app to read the data dynamically.
       
          - Direct Download URL: `https://www.dropbox.com/s/abc123/311_data.csv?dl=1`  
 
-3. **Data Cleaning & Preparation**
+3. **Data Cleaning & Preparation**  
 To improve performance and ensure our app can be deployed on shinyapps.io, we 
 created a new script (**preprocessing.R**) that performs all heavy computations—data 
 cleaning, category assignment, and time-based filtering—once, rather than doing 
