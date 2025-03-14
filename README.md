@@ -31,11 +31,12 @@ allowing users to explore patterns and trends in a user-friendly fashion.
 This work is part of our BIS 412 Advanced Data Visualization course challenge 
 (Challenge A: Exploratory Visualization).
 
-**NOTE:** The NYC 311 system collects a wide range of information from citizens—including 
+_**NOTE:**_ The NYC 311 system collects a wide range of information from citizens—including 
 complaints, requests, reports, and even *compliments*. For the remainder of this 
 README, we will refer to these entries as **"submissions**"
 
-### Primary Dashboard Features: 
+**Primary Dashboard Features: **  
+
 * Top 10 submission types by borough  
 * Summary statistics on submission types, sources, and agencies
 * Temporal trends in submission volume
@@ -57,9 +58,9 @@ on the dataset’s page) to filter submissions *Created Date* for the year 2024 
 That produced a file with over 3 million rows.
 
 2. **Exporting & Hosting**
-Because GitHub’s size limits prevent hosting multi-gigabyte files, we stored 
-the dataset on Dropbox. We then modified our Dropbox share link to create a direct 
-download URL, which allowed our Shiny app to read the CSV file dynamically.
+Because GitHub’s size limits prevent hosting multi-gigabyte files, we stored the 
+dataset on Dropbox. We then modified our Dropbox share link to create a direct 
+download URL, which allowed our Shiny app to read the data dynamically.
     + **Example of Converting a Dropbox Share Link to a Direct Download URL:**  
          - Suppose your Original Dropbox share link is: 
          `https://www.dropbox.com/s/abc123/311_data.csv?**dl=0`  
@@ -68,7 +69,19 @@ download URL, which allowed our Shiny app to read the CSV file dynamically.
       
          - Direct Download URL: `https://www.dropbox.com/s/abc123/311_data.csv?dl=1`  
 
-3. **Data Dictionary**   
+3. **Data Cleaning & Preparation**
+To improve performance and ensure our app can be deployed on shinyapps.io, we 
+created a new script (**preprocessing.R**) that performs all heavy computations—data 
+cleaning, category assignment, and time-based filtering—once, rather than doing 
+them at runtime. This script downloads the data from Dropbox in RDS format by 
+creating a temporary file, downloading in binary mode, and reading that file. 
+It then computes all the necessary summary statistics and aggregates, storing 
+the results in a file called **summary_data.rds**. Our **global.R** file then 
+loads this summary file so that the Shiny app works solely with these precomputed 
+summary objects. This method maintains data integrity while drastically reducing 
+file size and improving dashboard responsiveness.
+
+4. **Data Dictionary**   
 The NYC Open Data Portal provides a Data Dictionary (provided in the repository) explaining each 
 field (e.g., Complaint Type, Borough, Created Date, etc.). We consulted it to clarify variable 
 definitions and to make sure we were consistently interpreting the data correctly.
@@ -103,7 +116,7 @@ Our Shiny dashboard contains multiple tabs, each focusing on variable aspects of
 
 ## How to View the Dashboard
 This dashboard was deployed to shinyapps.io and can be accessed using the following link:  
-[**NYC 311 Data Dashboard - Team SAMM**]() <-- insert link once deployed
+[**NYC 311 Data Dashboard - Team SAMM**](https://sarahvon.shinyapps.io/NYC-311-DASHBOARD-SAMM/)
 
 
 ## Data Biography
