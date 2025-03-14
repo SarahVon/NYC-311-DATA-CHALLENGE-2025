@@ -35,7 +35,7 @@ _**NOTE:**_ The NYC 311 system collects a wide range of information from citizen
 complaints, requests, reports, and even *compliments*. For the remainder of this 
 README, we will refer to these entries as **"submissions**"
 
-**Primary Dashboard Features:**  
+### Primary Dashboard Features:  
 
 * Top 10 submission types by borough  
 * Summary statistics on submission types, sources, and agencies
