@@ -1,7 +1,6 @@
 # NYC 311 Complaints: Interactive Dashboard
-  
-**Course:** BIS 412 Advanced Data Visualization (Winter 2025, University of Washington Bothell)  
-**Challenge:** A (Exploratory Visualization)
+   
+**Challenge:** Exploratory Visualization
 
 **Authors (Team):**
 
@@ -28,8 +27,6 @@ This repository contains our **interactive Shiny dashboard** exploring **NYC 311
 service requests** filtered for the year 2024. Our goal is to provide a broad 
 overview of complaint types, geographic distributions, and response times, 
 allowing users to explore patterns and trends in a user-friendly fashion. 
-This work is part of our BIS 412 Advanced Data Visualization course challenge 
-(Challenge A: Exploratory Visualization).
 
 _**NOTE:**_ The NYC 311 system collects a wide range of information from citizens—including 
 complaints, requests, reports, and even *compliments*. For the remainder of this 
