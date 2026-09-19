@@ -1,6 +1,6 @@
 # NYC 311 Complaints: Interactive Dashboard
    
-**Challenge:** Exploratory Visualization
+**Purpose:** Exploratory Visualization
 
 **Authors (Team):**
 
