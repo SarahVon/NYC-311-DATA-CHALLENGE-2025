@@ -23,8 +23,8 @@
 
 ## Project Overview
 
-This repository contains our **interactive Shiny dashboard** exploring **NYC 311 
-service requests** filtered for the year 2024. Our goal is to provide a broad 
+I built an **interactive Shiny dashboard** exploring **NYC 311 service requests**
+filtered for the year 2024. My goal is to provide a broad
 overview of complaint types, geographic distributions, and response times, 
 allowing users to explore patterns and trends in a user-friendly fashion. 
 
@@ -79,7 +79,7 @@ summary objects. This method maintains data integrity while drastically reducing
 file size and improving dashboard responsiveness.
 
 4. **Data Dictionary**   
-The NYC Open Data Portal provides a Data Dictionary (provided in the repository) explaining each 
+The NYC Open Data Portal provides a Data Dictionary (included with the project files) explaining each
 field (e.g., Complaint Type, Borough, Created Date, etc.). We consulted it to clarify variable 
 definitions and to make sure we were consistently interpreting the data correctly.
 
@@ -133,7 +133,7 @@ The **311 Service Requests from 2010 to Present** dataset is maintained by NYC O
 - **NYC Open Data Portal**  
   - [311 Service Requests from 2010 to Present](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9)
 - **NYC 311 Data Dictionary**  
-  Provided under “Attachments” on the dataset page or in this repository (`311_Data_Dictionary.xlsx`).
+  Provided under “Attachments” on the dataset page or with the project files (`311_Data_Dictionary.xlsx`).
 - **Socrata / RSocrata**  
   - [Socrata Developer Portal](https://dev.socrata.com/)  
   - [RSocrata R Package](https://cran.r-project.org/web/packages/RSocrata/RSocrata.pdf)
@@ -154,8 +154,6 @@ please visit the [original NYC-complaints repository](https://github.com/UWB-Adv
   *From calls to insights: Analyzing service requests in Calgary, Medium.*  
   Available at: [https://medium.com/@carolyn.A13/from-calls-to-insights-analyzing-311-service-requests-in-calgary-bc24d917d5c9](https://medium.com/@carolyn.A13/from-calls-to-insights-analyzing-311-service-requests-in-calgary-bc24d917d5c9)  
   (Accessed: 13 February 2025).
-
-
 
 
 
